@@ -1,0 +1,21 @@
+//while循环_3
+#include<stdio.h>
+int main(void)
+{
+	char ch = 0;
+	char ret = 0;
+	char password [20] = { 0 };
+	printf("请输入密码:>");                             //123456 abcd\n
+	scanf("%s", password);                              // abcd\n
+	printf("请确认（Y/N）:>");           //输入函数-----输入缓冲区
+	while ((ch=getchar())!='\n')
+	{
+		;
+	}                                                    //空
+	ret = getchar();                                     //空
+	if (ret == 'Y')
+		printf("确认成功");
+	else
+		printf("放弃确认");
+	return 0;
+}
