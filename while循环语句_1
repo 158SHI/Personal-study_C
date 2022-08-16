@@ -1,0 +1,14 @@
+//while循环语句_1
+#include<stdio.h>
+int main(void)
+{
+	int i = 1;
+	while (i<=10)
+	{
+		printf("%d ", i);
+		i++;
+		if (5==i)
+			break;
+	}
+	return 0;
+}
