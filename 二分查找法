@@ -1,0 +1,57 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+
+//在一个有序数组中查找某个元素n
+//#include<stdio.h>
+//int main(void)
+//{
+//	int arr[10] = { 1,2,3,4,5,6,7,8,9,10 };//创建有序数组
+//	int sz = (sizeof(arr) / sizeof(arr[0]));//计算元素个数
+//	int i = 0;
+//	int n = 0;
+//	printf("请输入一个要查找的元素 n= ");
+//	scanf("%d", &n);
+//	for ( i = 0; i < sz; i++)//从左至右查找
+//	{
+//		if (n ==arr[i])
+//		{
+//			printf("找到了，该元素下标为%d\n", i);
+//			break;
+//		}
+//	}
+//	if(i==sz)
+//		printf("无法找到该元素");
+//			return 0;
+//}
+
+//用二分查找算法查找一个有序数组中的某个元素n
+#include<stdio.h>
+int main(void)
+{
+	int arr[10] = { 1,2,3,4,5,6,7,8,9,10 };//创建有序数组
+	int n = 0;//创建要查找的元素n
+	printf("请输入要查找的元素 n=");
+	scanf("%d", &n);
+	int sz = (sizeof(arr) / sizeof(arr[0]));//计算元素个数
+	int left = 0;
+	int right = sz-1;
+	while (left <= right)//进行折半
+	{
+		int mid = (left + right) / 2;
+		if (arr[mid] > n)
+		{
+			right = mid - 1;
+		}
+		else if (arr[mid] < n)
+		{
+			left = mid + 1;
+		}
+		else
+		{
+			printf("找到了,该元素下标为%d", mid);
+			break;
+		}
+	}
+	if (left > right)
+		printf("无法找到该元素");
+	return 0;
+}
