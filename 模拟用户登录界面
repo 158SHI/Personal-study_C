@@ -1,0 +1,27 @@
+//模拟用户登录界面，该用户有3次密码输入机会
+#include<stdio.h>
+#include<string.h>
+int main(void)
+{
+	int i = 0;
+	char password[20] = "123456";//设置正确密码
+	for ( i = 0; i < 3; i++)
+	{
+		printf("请输入密码>:");
+		scanf("%s", &password);//输入密码
+		if (strcmp(password, "123456") == 0)//判断密码是否正确，strcmp函数
+		{
+			printf("登陆成功");
+			break;
+		}
+		else
+		{
+			printf("密码错误\n");
+		}
+	}
+	if (i == 3)
+	{
+		printf("验证失败，退出程序");
+	}
+	return 0;
+}
