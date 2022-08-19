@@ -1,0 +1,20 @@
+//输出1到100之间数字9的个数
+#include<stdio.h>
+int main(void)
+{
+	int i = 0;
+	int count = 0;
+	for ( i = 1; i <=100; i++)
+	{
+		if (i%10 == 9)  //个位数字是9
+		{
+			count++;
+		}
+		if (i/10 == 9)  //十位数字为9
+		{
+			count++;            //两个if语句为并列关系
+		}
+	}
+	printf("count=%d", count);
+	return 0;
+}
