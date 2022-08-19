@@ -1,0 +1,26 @@
+//试除法输出100到200之间的素数
+#include<stdio.h>
+#include<math.h>
+int main(void)
+{
+	int i = 0;
+	int count = 0;
+	for ( i = 101; i <=200; i+=2)//偶数不可能是素数
+	{
+		int j = 2;
+		for ( j = 2; j <= sqrt(i); j++)//sqrt开平方函数
+		{
+			if (i%j==0)
+			{
+				break;
+			}
+		}
+		if (j>sqrt(i))
+		{
+			printf("%d ", i);
+			count++;
+		}
+	}
+	printf("\ncount=%d", count);
+	return 0;
+}
