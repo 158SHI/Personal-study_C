@@ -1,0 +1,27 @@
+//设计一个函数交换两个整型的值
+#include<stdio.h>
+
+void swap1(int x, int y)
+{
+	int temp = x;
+	x = y;
+	y = temp;
+}              // x/y与a/b无关联，无法实现交换
+
+void swap2(int* pa, int* pb)
+{
+	int temp = 0;
+	temp = *pa;
+	*pa = *pb;
+	*pb = temp;
+}              //利用指针对整型进行远程交换
+
+int main(void)
+{
+	int a = 10;
+	int b = 20;
+	printf("a=%d b=%d\n", a, b);
+	swap2(&a,&b);
+	printf("a=%d b=%d", a, b);
+	return 0;
+}
