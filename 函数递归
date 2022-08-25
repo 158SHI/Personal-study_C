@@ -1,0 +1,175 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+
+
+////函数递归
+////接收一个整型值，按照顺序打印它的每一位
+//#include<stdio.h>
+//
+//void print(int i)
+//{
+//	if (i>9)
+//	{
+//		print(i/10);
+//	}
+//	printf("%d ",i%10);
+//}
+//
+//int main(void)
+//{
+//	unsigned int i = 0;
+//	printf("请输入一个数>:");
+//	scanf("%d", &i);
+//	print(i);
+//	return 0;
+//}
+
+////函数递归
+////不引入临时变量，求字符串长度
+//#include<stdio.h>
+//
+//int my_strlen(char* p)
+//{
+//	if (*p != '\0')
+//	{
+//		return 1 + my_strlen(p + 1);
+//	}
+//	else
+//	{
+//		return 0;
+//	}
+//}
+//
+//int main(void)
+//{
+//	char arr[] = "abcd";
+//	int len=my_strlen(arr);
+//	printf("len=%d\n", len);
+//}
+
+////函数递归
+////求n的阶乘
+//#include<stdio.h>
+//
+//int Fac1(int n)
+//{
+//	int i = 0;
+//	int ret = 1;
+//	for (i = 1; i <= n; i++)
+//	{
+//		ret *= i;
+//	}
+//	return ret;
+//}         //循环
+//
+//int Fac2(int n)
+//{
+//	if (n <= 1)
+//	{
+//		return 1;
+//	}
+//	else
+//	{
+//		return n * Fac2(n-1);
+//	}
+//}         //递归
+//
+//int main(void)
+//{
+//	int n = 0;
+//	int ret1 = 0;
+//	int ret2 = 0;
+//	printf("请输入一个数 n=");
+//	scanf("%d", &n);
+//	ret1 = Fac1(n);
+//	ret2=Fac2(n);
+//	printf("n!=%d\n", ret1);
+//	printf("n!=%d", ret2);
+//	return 0;
+//}
+
+////函数递归
+////求第n个斐波那契数
+//#include<stdio.h>
+//
+//int Fib(int n)
+//{
+//	if (n<=2)
+//	{
+//		return 1;
+//	}
+//	else
+//	{
+//		return Fib(n - 1) + Fib(n - 2);
+//	}
+//}               //效率较低
+//
+//int main(void)
+//{
+//	int n = 0;
+//	int ret = 0;
+//	printf("请输入 n=");
+//	scanf("%d", &n);
+//	ret=Fib(n);
+//	printf("ret=%d", ret);
+//	return 0;
+//}
+
+//循环求第n个斐波那契数
+//#include<stdio.h>
+//
+//int Fib(int n)
+//{
+//	int a = 1;
+//	int b = 1;
+//	int c = 1;
+//	while (n>2)
+//	{
+//		c = a + b;
+//		a = b;
+//		b = c;
+//		n--;
+//	}
+//	return c;
+//}
+//
+//int main(void)
+//{
+//	int n = 0;
+//	printf("请输入 n=");
+//	scanf("%d", &n);
+//	int ret = Fib(n);
+//	printf("ret=%d", ret);
+//	return 0;
+//}
+
+//打印前n个斐波那契数
+#include<stdio.h>
+
+int Fib(int n)
+{
+	int a = 1;
+	int b = 1;
+	int c = 1;
+	while (n > 2)
+	{
+		c = a + b;
+		a = b;
+		b = c;
+		n--;
+	}
+	return c;
+}
+
+int main(void)
+{
+	int i = 0;
+	int n = 0;
+	printf("请输入 n=");
+	scanf("%d", &n);
+	for ( i = 1; i <=n; i++)
+	{
+		int ret = Fib(i);
+		printf("%d ", ret);
+	}
+	return 0;
+}
