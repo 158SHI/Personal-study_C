@@ -1,0 +1,144 @@
+//函数递归：
+//接受一个整型值，按顺序打印它的每一位
+//不引入临时变量，求字符串长度
+//求n!
+//求第n个斐波那契数
+//打印前n个斐波那契数
+
+//设计函数
+//交换两个整型的值
+//判断一个年份是否为闰年
+//二分查找一个有序数组中的某个元素
+//设计一个函数，没调用一次就使num增加1
+
+
+#define _CRT_SECURE_NO_WARNINGS 1
+
+//接受一个整型值，按顺序打印它的每一位
+//#include<stdio.h>
+//
+//void print(int i)
+//{
+//	if (i>9)
+//	{
+//		print(i / 10);
+//	}
+//	printf("%d ", i % 10);
+//}
+//
+//int main(void)
+//{
+//	int i = 0;
+//	printf("请输入一个整数 i=");
+//	scanf("%d", &i);
+//	print(i);
+//	return 0;
+//}
+
+//不引入临时变量，求字符串长度
+//#include<stdio.h>
+//
+//int my_strlen(char* str)
+//{
+//	if (*str != '\0')
+//	{
+//		return 1 + my_strlen(str + 1);
+//	}
+//	else
+//	{
+//		return 0;
+//	}
+//}
+//
+//int main(void)
+//{
+//	char arr[] = "abc";
+//	my_strlen(arr);
+//	int len = my_strlen(arr);
+//	printf("len=%d", len);
+//	return 0;
+//}
+
+////求n!
+//#include<stdio.h>
+//
+//int Fac(int n)
+//{
+//	if (n==1)
+//	{
+//		return 1;
+//	}
+//	else
+//	{
+//		return n * Fac(n - 1);
+//	}
+//}
+//
+//int main(void)
+//{
+//	int n = 0;
+//	printf("请输入一个数 n=");
+//	scanf("%d", &n);
+//	int ret=Fac(n);
+//	printf("n!=%d", ret);
+//	return 0;
+//}
+
+////输出第n个斐波那契数
+//#include<stdio.h>
+//
+//int Fib(int n)
+//{
+//	if (n<=2)
+//	{
+//		return 1;
+//	}
+//	else
+//	{
+//		return Fib(n - 1) + Fib(n - 2);
+//	}
+//}
+//
+//int main(void)
+//{
+//	int n = 0;
+//	printf("请输入 n=");
+//	scanf("%d", &n);
+//	int ret=Fib(n);
+//	printf("ret=%d", ret);
+//	return 0;
+//}
+
+//打印前n个斐波那契数
+#include<stdio.h>
+
+int Fib(int i)
+{
+	if (i <= 2)
+	{
+		return 1;
+	}
+	else
+	{
+		return Fib(i - 1) + Fib(i - 2);
+	}
+}
+
+void Fib_print(int n)
+{
+	int i = 0;
+	for ( i = 1; i <= n; i++)
+	{
+		int ret=Fib(i);
+		printf("%d ", ret);
+	}
+}
+
+int main(void)
+{
+	int n = 0;
+	printf("请输入 n=");
+	scanf("%d", &n);
+	Fib_print(n);
+	return 0;
+}
