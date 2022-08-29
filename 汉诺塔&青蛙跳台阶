@@ -1,0 +1,60 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+
+
+////汉诺塔问题求解
+//#include<stdio.h>
+//
+//void move(char x, char y)
+//{
+//	printf("%c --> %c\n", x, y);
+//}
+//
+//void Hanoi(int n, char a, char b, char c)
+//{
+//	if (n == 1)
+//	{
+//		move(a, c);// n=1，直接将其从A移动到C
+//	}
+//	else
+//	{
+//		Hanoi(n - 1, a, c, b);// 将1到n-1以C为媒介从A移动到B
+//		move(a, c);           // 将n从A移动到C
+//		Hanoi(n - 1, b, a, c);// 将1到n-1以A为媒介从B移动到C
+//	}
+//}
+//
+//int main(void)
+//{
+//	printf("请输入 n=");
+//	int n = 0;
+//	scanf("%d", &n);
+//	printf("移动步骤如下：\n");
+//	Hanoi(n, 'A', 'B', 'C');
+//	return 0;
+//}
+
+//青蛙跳台阶问题求解
+#include<stdio.h>
+
+int Jump(int n)
+{
+	if (n == 0||n == 1)
+	{
+		return 1;
+	}
+	else
+	{
+		return Jump(n - 1) + Jump(n - 2); //若最后一次跳1个台阶，则有 Jump(n-1) 种跳法，
+		                                  //若最后一次跳2个台阶，则有 Jump(n-2) 种跳法
+	}                                     //故共有 Jump(n-1) + Jump(n-2) 种跳法
+}
+
+int main(void)
+{
+	int n = 0;
+	printf("请输入台阶数 n=");
+	scanf("%d", &n);
+	int ret=Jump(n);
+	printf("共有%d种跳法\n", ret);
+	return 0;
+}
