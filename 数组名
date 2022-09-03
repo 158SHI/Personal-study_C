@@ -1,0 +1,12 @@
+//数组名
+#include<stdio.h>
+int main(void)
+{
+	int arr[] = { 1,2,3,4,5,6,7 };
+	printf("%p\n", arr);
+	printf("%p\n", &arr[0]);//数组名通常是首元素地址
+	printf("%p\n",&arr);//&数组名 取的是整个数组的地址
+	int sz = sizeof(arr) / sizeof(arr[0]);
+	printf("sz=%d\n", sz);//sizeof（数组名）计算的是整个数组的大小，/kb
+	return 0;
+}
