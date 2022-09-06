@@ -1,51 +1,30 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 
-//扫雷
-
-#include"game.h"
-
-void menu()
-{
-	printf("        <<  扫雷  >>\n");
-	printf("***----------------------***\n");
-	printf("***---1.play -- 0.exit---***\n");
-	printf("***----------------------***\n");
-}
-
-void game()
-{
-	//创建棋盘
-	char mine[ROWS][COLS] = { 0 };//创建存放雷的棋盘
-	char show[ROWS][COLS] = { 0 };//创建扫雷的棋盘
-	InitBoard(mine,ROWS,COLS,'0');//初始化存放雷的棋盘
-	InitBoard(show, ROWS, COLS, '*');//初始化扫雷棋盘
-	DisplayBoard(show,ROW,COL);//打印棋盘
-	SetMine(mine,ROW,COL);//布雷
-	FindMine(mine,show,ROW,COL);//扫雷
-}
-
+//搬砖问题
+//一个男人搬3块砖，一个女人搬2块砖，两个小孩搬1块砖，需要n个人搬n块砖,一次搬完
+//共有多少种搬法
+#include<stdio.h>
 int main(void)
 {
-	srand((unsigned int)time(NULL));
-	int input = 0;
-	do
+	int x, y, z = 0;
+	int count = 0;
+	int n = 0;
+	printf("请输入 n=");
+	scanf("%d", &n);
+	for ( x = 0; x <= n/3; x++)
 	{
-		menu();
-		printf("请选择>:");
-    	scanf("%d", &input);
-		switch (input)
+		for ( y = 0; y <= n/2; y++)
 		{
-		case 1:
-			game();
-			break;
-		case 0:
-			printf("退出游戏\n");
-			break;
-		default:
-			printf("选择错误，请重新选择\n");
-			Sleep(2000);
-			system("cls");
-			break;
+			for ( z = 0; z <= 2*n;z= z+2)
+			{
+				if (x+y+z==n && 3*x+2*y+z/2==n)
+				{
+					printf("men=%d women=%d kids=%d\n", x, y, z);
+					count++;
+				}
+			}
 		}
-	} while (input);
+	}
+	printf("count=%d\n", count);
+	return 0;
 }
