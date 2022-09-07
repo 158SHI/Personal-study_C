@@ -1,0 +1,26 @@
+//取地址操作符
+#include<stdio.h>
+int main(void)
+{
+	int a = 10;
+	int* p = &a;//取地址
+	*p = 20;//解引用
+	printf("%d", a);
+	return 0;
+}
+
+//逻辑反操作
+#include<stdio.h>
+int main(void)
+{
+	int a = 0;
+	if (a)
+	{
+		printf("假\n");
+	}
+	if (!a)
+	{
+		printf("真\n");
+	}
+	return 0;
+}
