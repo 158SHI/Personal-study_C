@@ -1,0 +1,19 @@
+//强制类型转换
+#include<stdio.h>
+int main(void)
+{
+	int a = (int)3.14;//强制类型转换
+	printf("a=%d\n", a);
+}
+
+//逻辑操作符
+#include<stdio.h>
+int main(void)
+{
+	int i = 0, a = 0, b = 2, c = 3, d = 4;
+	i = a++ && ++b && d++;
+	a = 1;
+	i = a++ || ++b || d++;//若| |左边出现真，整体直接为真，右边不再计算
+	printf("a=%d b=%d c=%d d=%d", a, b, c, d);//若&&左边出现假，整体直接为假，右边不再计算
+	return 0;
+}
