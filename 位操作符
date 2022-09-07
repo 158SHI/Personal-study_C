@@ -1,0 +1,72 @@
+//位操作符
+//#include<stdio.h>
+//int main(void)
+//{
+//	int a = 3;
+//	int b = 5;
+//	//00000000000000000000000000000011
+//	//00000000000000000000000000000101
+//	//00000000000000000000000000000001
+//	int c = a & b;//按位与
+//	int d = a | b;
+//	int e = a ^ b;
+//	//00000000000000000000000000000111
+//	printf("c=%d d=%d e=%d\n", c,d,e);
+//	//
+//	return 0;
+//}
+//
+////不引入第三个变量，交换两个整型的值
+//#include<stdio.h>
+//int main(void)
+//{
+//	int a = 3;
+//	int b = 5;
+//	printf("a=%d b=%d\n", a, b);
+//	a = a ^ b;
+//	b = a ^ b;
+//	a = a ^ b;
+//	//a = a + b;
+//	//b = a - b;
+//	//a = a - b;
+//	printf("a=%d b=%d\n", a, b);
+//	return 0;
+//}
+//
+//输出一个整数在内存中存储的1的个数
+//按位与和移动操作符
+//#include<stdio.h>
+//int main(void)
+//{
+//	int num = 0;
+//	int i = 0;
+//	int count = 0;
+//	printf("请输入num=");
+//	scanf("%d", &num);
+//	for ( i = 0; i < 32; i++)//逐个将已判断的二进制数右移
+//	{
+//		if (((num>>i)&1)==1)
+//		{
+//			count++;
+//		}
+//	}
+//	printf("count=%d\n", count);
+//	return 0;
+//}
+//
+//方法2
+//#include<stdio.h>
+//int main(void)
+//{
+//	int num = 0;
+//	int count = 0;
+//	printf("请输入 num=");
+//	scanf("%d", &num);
+//	while (num)
+//	{
+//		count++;
+//		num = num & (num - 1);//逐个消去已计数的1（将已计数的1换成0）
+//	}
+//	printf("count=%d\n", count);
+//	return 0;
+//}
