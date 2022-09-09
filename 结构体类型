@@ -1,0 +1,23 @@
+//结构体类型
+struct stu  //创建一个结构体类型
+{
+	char name[20];
+	int age;
+	char id[20];
+};
+
+#include<stdio.h>
+int main(void)
+{
+	struct stu s1 = { "张三",20,"20220304" };//使用该类型创建了一个学生对象s1并初始化
+	struct stu* ps = &s1;
+
+	printf("%s\n", (*ps).name);
+	printf("%d\n", (*ps).age);
+
+	printf("%s\n", ps->name);
+	printf("%d\n", ps->age);//结构体指针->成员名
+
+	printf("%s\n", s1.name);//结构体变量.成员名
+	printf("%d", s1.age);
+}
