@@ -1,0 +1,16 @@
+//逗号表达式
+#include<stdio.h>
+int main(void)
+{
+	int a = 1;
+	int b = 2;
+	int d = 1;
+  //
+	int c = 0;
+	if (a=b+2,b=a+3,d>0)
+	{
+		 c = a + b;
+	}
+	printf("c=%d\n", c);
+	return 0;
+}
