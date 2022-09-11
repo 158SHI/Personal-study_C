@@ -2,140 +2,165 @@
 
 #include"game.h"
 
-
-void InitBoard(char board[ROW][COL], int row, int col)
+void InitBoard(char board[ROWS][COLS], int rows, int cols, char ret)
 {
 	int i, j = 0;
+	for ( i = 0; i < rows; i++)
+	{
+		for ( j = 0; j < cols; j++)
+		{
+			board[i][j] = ret;
+		}
+	}
+}
+
+void DisplayBoard(char board[ROWS][COLS], int row, int col)
+{
+	int i,j = 0;
+	for ( i = 0; i <= col; i++)
+	{
+		printf("%d ", i);
+	}
+	printf("\n");
+	for ( i = 1; i <= row ; i++)
+	{
+		printf("%d ", i);
+		for ( j = 1; j <= col; j++)
+		{
+			printf("%c ", board[i][j]);
+		}
+		printf("\n");
+	}
+}
+
+void SetMine(char board[ROWS][COLS], int row, int col)
+{
+	int count = EAST_COUNT;
+	while (count)
+	{
+		int x = rand() % ROW + 1;
+		int y = rand() % COL + 1;
+		if (board[x][y] == '0')
+		{
+			board[x][y] = '1';
+			count--;
+		}
+	}
+}
+
+int get_mine_count(char mine[ROWS][COLS], int x, int y)
+{
+	return mine[x - 1][y - 1] +
+		mine[x - 1][y] +
+		mine[x - 1][y + 1] +
+		mine[x][y - 1] +
+		mine[x][y + 1] +
+		mine[x + 1][y - 1] +
+		mine[x + 1][y] +
+		mine[x + 1][y + 1] - 8 * '0';
+}
+
+void ExcludeMine(char show[ROWS][COLS], char mine[ROWS][COLS], int x, int y)
+{
+	int ret = get_mine_count(mine,x,y);
+	if (ret != 0)
+	{
+		show[x][y] = ret + '0';
+	}
+	else
+	{
+		show[x][y] = ' ';
+		if (show[x-1][y-1]=='*')
+		{
+			ExcludeMine(show,mine,x - 1, y - 1);
+		}
+		if (show[x-1][y]=='*')
+		{
+			ExcludeMine(show, mine, x - 1, y);
+		}
+		if (show[x-1][y+1]=='*')
+		{
+			ExcludeMine(show, mine, x - 1, y + 1);
+		}
+		if (show[x][y-1]=='*')
+		{
+			ExcludeMine(show, mine, x, y - 1);
+		}
+		if (show[x][y+1]=='*')
+		{
+			ExcludeMine(show, mine, x, y + 1);
+		}
+		if (show[x+1][y-1]=='*')
+		{
+			ExcludeMine(show, mine, x + 1, y - 1);
+		}
+		if (show[x+1][y]=='*')
+		{
+			ExcludeMine(show, mine, x + 1, y);
+		}
+		if (show[x+1][y+1]=='*')
+		{
+			ExcludeMine(show, mine, x + 1, y + 1);
+		}
+	}
+}
+
+int CheckShow(char show[ROWS][COLS], int row, int col, int x, int y)
+{
+	int i, j = 0;
+	int win = 0;
 	for ( i = 0; i < row; i++)
 	{
 		for ( j = 0; j < col; j++)
 		{
-			board[i][j] = ' ';//将棋盘初始化为空
+			if (show[i][j]=='*')
+			{
+				win++;
+				return win;
+			}
 		}
 	}
 }
 
-void DisplayBoard(char board[ROW][COL], int row, int col)
-{
-	int i= 0;
-	for ( i = 0; i < row; i++)
-	{
-		int j = 0;
-		for (j = 0; j < col; j++)
-		{
-			printf(" %c ", board[i][j]);
-			if (j < col - 1)
-			{
-				printf("|");
-			}
-		}
-		printf("\n");
-		if (i<row-1)
-		{
-			for (j = 0; j < col; j++)
-			{
-				printf("---");
-				if (j < col - 1)
-				{
-					printf("|");
-				}
-			}
-			printf("\n");
-		}
-	}
-}
-
-void PlayerMove(char board[ROW][COL], int row, int col)
+void FindMine(char show[ROWS][COLS], char mine[ROWS][COLS], int row, int col)
 {
 	int x, y = 0;
-	printf("请输入要下棋的位置的坐标>:");
 	while (1)
 	{
+		printf("请输入要扫雷的位置坐标>:");
 		scanf("%d%d", &x, &y);
-		if (x > 0 && x <= row && y > 0 && y <= col)//判断输入的坐标是否合法
+		if (x > 0 && x <= row && y > 0 && y <= col && show[x][y]=='*')//判断是否合法
 		{
 			//合法
-			if (board[x-1][y-1] == ' ')
+			if (mine[x][y] == '1')//是雷
 			{
-				board[x - 1][y - 1] = '*';
+				printf("很遗憾，你被炸死了!\n");
+				DisplayBoard(mine, row, col);
+				Sleep(3000);
+				system("cls");
 				break;
 			}
-			else
+			else//不是雷
 			{
-				printf("该位置已被占用，请重新输入>:");
+				ExcludeMine(show, mine, x, y);//判断和提示
+				system("cls");
+				DisplayBoard(show, row, col);
+				int win = CheckShow(show, row, col, x, y);
+				if (win==EAST_COUNT)
+				{
+					break;
+				}
 			}
 		}
 		else
 		{
 			//不合法
-			printf("输入非法，请重新输入>:");
+			printf("输入非法，请重新输入\n");
 		}
+	}
+	if (CheckShow == EAST_COUNT)
+	{
+		printf("恭喜你，扫雷成功！\n");
+		DisplayBoard(mine, row, col);
 	}
 }
-
-void ComputerMove(char board[ROW][COL], int row, int col)
-{
-	int x, y = 0;
-	while (1)
-	{
-		x = rand() % row;
-		y = rand() % col;
-		if (board[x - 1][y - 1] == ' ')
-		{
-			board[x - 1][y - 1] = '#';
-			break;
-		}
-	}
-}
-
-int IsFull(char board[ROW][COL], int row, int col)
-{
-	int i, j = 0;
-	for ( i = 0; i < row; i++)
-	{
-		for ( j = 0; j < col; j++)
-		{
-			if (board[i][j]==' ')
-			{
-				return 0;
-			}
-		}
-	}
-	return 1;
-}
-
-char Iswin(char board[ROW][COL], int row, int col)
-{
-	int i = 0;
-	for ( i = 0; i < row; i++)
-	{
-		if (board[i][0]==board[i][1] && board[i][1]==board[i][2] && board[i][0]!=' ')
-		{
-			return board[i][0];
-		}
-	}
-	for ( i = 0; i < col; i++)
-	{
-		if (board[0][i]==board[1][i] && board[1][i]==board[2][i] && board[0][i]!=' ')
-		{
-			return board[0][i];
-		}
-	}
-	if (board[0][0]==board[1][1] && board[1][1]==board[2][2] && board[0][0]!=' ')
-	{
-		return board[0][0];
-	}
-	if (board[0][2]==board[1][1] && board[1][1]==board[2][0] && board[0][2]!=' ')
-	{
-		return board[0][2];
-	}
-	if (IsFull(board,row,col) == 1)
-	{
-		return 'O';
-	}
-	return 'C';
-}
-//玩家赢返回*
-//电脑赢返回#
-//平局返回O
-//继续返回C
