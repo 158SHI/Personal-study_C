@@ -1,51 +1,31 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 
-//扫雷
-#include"game.h"
 
-void menu()
-{
-	printf("***---------------------***\n");
-	printf("***---1.play - 0.exit---***\n");
-	printf("***---------------------***\n");
-}
+//#include<stdio.h>
+//int main(void)
+//{
+//	int a = 0;
+//	int b = 0;
+//	printf("请输入a=");
+//	scanf("%d", &a);
+//	printf("请输入b=");
+//	scanf("%d", &b); 
+//	int c = a * b;
+//	printf("the length=%d,the width=%d\n", a, b);
+//	printf("The area is %d\n", c);
+//	return 0;
+//}
 
-void game()
-{
-	char mine[ROWS][COLS] = { 0 };//定义存储棋盘
-	char show[ROWS][COLS] = { 0 };//定义显示棋盘
-	InitBoard(mine, ROWS, COLS,'0');//
-	InitBoard(show, ROWS, COLS,'*');//初始化棋盘
-	DisplayBoard(show, ROW, COL);//打印棋盘
-	//DisplayBoard(mine, ROW, COL);//打印并测试棋盘
-	SetMine(mine, ROW, COL);//布雷
-	//DisplayBoard(mine, ROW, COL);//打印并测试棋盘
-	FindMine(show, mine, ROW, COL);//扫雷
-}
 
+
+#include"struck.h"
+
+//结构体类型
 int main(void)
 {
-	srand((unsigned int)time(NULL));
-	int input = 0;
-	do
-	{
-		menu();
-		printf("请选择>:");
-		scanf("%d", &input);
-		switch (input)
-		{
-		case 1:
-			game();
-			break;
-		case 0:
-			printf("退出游戏");
-			break;
-		default:
-			printf("选择错误，请重新选择>:");
-			break;
-		}
-	} while (input);
+	struct user a[N];
+	input(&a);//传址调用
+	sort(&a);
+	output(&a);
 	return 0;
 }
-
-
