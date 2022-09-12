@@ -1,31 +1,71 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 
 
+//模拟strlen函数求字符串长度
+
+//1.计数器
 //#include<stdio.h>
+//
+//int my_strlen(char* str)
+//{
+//	int count = 0;
+//	while (*str != '\0')
+//	{
+//		count++;
+//		str++;
+//	}
+//	return count;
+//}
+//
 //int main(void)
 //{
-//	int a = 0;
-//	int b = 0;
-//	printf("请输入a=");
-//	scanf("%d", &a);
-//	printf("请输入b=");
-//	scanf("%d", &b); 
-//	int c = a * b;
-//	printf("the length=%d,the width=%d\n", a, b);
-//	printf("The area is %d\n", c);
+//	char arr[] = "hello";
+//	int len = my_strlen(arr);
+//	printf("len=%d\n", len);
 //	return 0;
 //}
 
+//2.函数递归
+//#include<stdio.h>
+//
+//int my_strlen(char* str)
+//{
+//	if (*str != '\0')
+//	{
+//		return 1 + my_strlen(str + 1);
+//	}
+//	else
+//	{
+//		return 0;
+//	}
+//}
+//
+//int main(void)
+//{
+//	char arr[] = "hello";
+//	int len = my_strlen(arr);
+//	printf("len=%d\n", len);
+//	return 0;
+//}
 
+//3.指针运算
+#include<stdio.h>
 
-#include"struck.h"
+int my_strlen(char* str)
+{
+	char* start = str;
+	char* end = str;
+	while (*end != '\0')
+	{
+		end++;
+	}
+	return end - start;
+}
 
-//结构体类型
 int main(void)
 {
-	struct user a[N];
-	input(&a);//传址调用
-	sort(&a);
-	output(&a);
+	char arr[] = "hello";
+	int len = my_strlen(arr);
+	printf("len=%d\n", len);
 	return 0;
 }
