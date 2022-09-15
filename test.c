@@ -1,155 +1,308 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 
-//冒泡排序
+//递归和非递归求n的阶乘
+//递归
 //#include<stdio.h>
 //
-//Bobble(int arr[10], int sz)
+//int N(int n)
 //{
-//	int i, j, tmp = 0;
-//	for ( i = 0; i < sz-1; i++)//i的引入：不断舍去末端已确定的数
+//	if (n == 1)
 //	{
-//		for ( j = 0; j < sz-1-i; j++)
-//		{
-//			if (arr[j]>arr[j+1])
-//			{
-//				tmp = arr[j];
-//				arr[j] = arr[j + 1];
-//				arr[j + 1] = tmp;
-//			}
-//		}
-//	}
-//
-//}
-//
-//int main(void)
-//{
-//	int arr[10] = { 2,4,8,5,2,0,-1,4,7,6 };
-//	int sz = sizeof(arr) / sizeof(arr[0]);
-//	Bobble(arr, sz);//冒泡排序
-//	int i = 0;
-//	for ( i = 0; i < sz; i++)
-//	{
-//		printf("%d ", arr[i]);
-//	}
-//}
-
-//数组操作
-//#include<stdio.h>
-//
-//void Init(int arr[10], int sz)
-//{
-//	int i = 0;
-//	for ( i = 0; i < sz; i++)
-//	{
-//		arr[i] = i;
-//	}
-//}
-//
-//void Print(int arr[10], int sz)
-//{
-//	int i = 0;
-//	for ( i = 0; i < sz; i++)
-//	{
-//		printf("%d ", arr[i]);
-//	}
-//	printf("\n");
-//}
-//
-//void Reverse(int arr[10], int sz)
-//{
-//	int left = 0;
-//	int right = sz - 1;
-//	int tmp = 0;
-//	while (left<right)
-//	{
-//		tmp = arr[left];
-//		arr[left] = arr[right];
-//		arr[right] = tmp;
-//		left++;
-//		right--;
-//	}
-//}
-//
-//int main(void)
-//{
-//	int arr[10] = { 0 };
-//	int sz = sizeof(arr) / sizeof(arr[0]);
-//	Init(arr, sz);//初始化
-//	Print(arr, sz);//打印
-//	Reverse(arr, sz);//反置
-//	Print(arr, sz);//打印
-//	return 0;
-//}
-
-//交换两个元素个数相同的数组中的元素
-//#include<stdio.h>
-//int main(void)
-//{
-//	int arr1[] = { 1,3,5,7,9 };
-//	int arr2[] = { 2,4,6,8,0 };
-//	int i, tmp = 0;
-//	int sz = sizeof(arr1) / sizeof(arr1[0]);
-//	for ( i = 0; i < sz; i++)
-//	{
-//		tmp = arr1[i];
-//		arr1[i] = arr2[i];
-//		arr2[i] = tmp;
-//	}
-//	return 0;
-//}
-
-//有符号数->无符号数
-//#include<stdio.h>
-//int i;//全局变量不初始化默认为0
-//int main(void)
-//{
-//	i--;
-//	if (i<sizeof(i))
-//	{
-//		printf("<\n");
+//		return 1;
 //	}
 //	else
 //	{
-//		printf(">\n");
+//		return n * N(n - 1);
 //	}
+//}
+//
+//int main()
+//{
+//	int n = 0;
+//	scanf("%d", &n);
+//	int ret = N(n);
+//	printf("%d", ret);
 //	return 0;
 //}
 
-//操作符的优先级
+//非递归
 //#include<stdio.h>
+//
+//int N(int n)
+//{
+//	int i = 0;
+//	int m = 1;
+//	for ( i = 1; i <= n; i++)
+//	{
+//		m = m * i;
+//	}
+//	return m;
+//}
+//
 //int main(void)
 //{
-//	int a, b, c;
-//	a = 5;
-//	c = ++a;
-//	b = ++c, c++, ++a, a++;// = 的优先级比 ，高
-//	b += a++ + c;
-//	printf("a=%d b=%d c=%d\n", a, b, c);
+//	int n = 0;
+//	scanf("%d", &n);
+//	int ret = N(n);
+//	printf("%d", ret);
 //	return 0;
 //}
 
-//求两个数二进制中不同位的个数
+//递归和非递归模拟实现strlen函数
+//递归
+//#include<stdio.h>
+//
+//int my_strlen(char* str)
+//{
+//	if (*str == '\0')
+//	{
+//		return 0;
+//	}
+//	else
+//	{
+//		return 1 + my_strlen(str + 1);
+//	}
+//}
+//
+//int main()
+//{
+//	char arr[] = "hello";
+//	int ret = my_strlen(arr);
+//	printf("%d\n", ret);
+//	return 0;
+//}
+
+//非递归
+//计数器
+//#include<stdio.h>
+//
+//int my_strlen(char* str)
+//{
+//	int count = 0;
+//	while (*str != '\0')
+//	{
+//		count++;
+//		str++;
+//	}
+//	return count;
+//}
+//
+//int main()
+//{
+//	char arr[] = "hello";
+//	int ret = my_strlen(arr);
+//	printf("%d\n", ret);
+//	return 0;
+//}
+
+//指针运算
+//#include<stdio.h>
+//
+//int my_strlen(char* str)
+//{
+//	char* start = str;
+//	char* end = str;
+//	while (*end != '\0')
+//	{
+//		end++;
+//	}
+//	return end - start;
+//}
+//
+//int main()
+//{
+//	char arr[] = "hello";
+//	int ret = my_strlen(arr);
+//	printf("%d\n", ret);
+//	return 0;
+//}
+
+//不使用库函数，用递归的方式倒置一个字符串中的元素
+//#include<stdio.h>
+//
+//int my_strlen(char* str)
+//{
+//	int count = 0;
+//	while (*str != '\0')
+//	{
+//		count++;
+//		str++;
+//	}
+//	return count;
+//}
+//
+//void Rserve_sort(char* arr, int len)
+//{
+//	int tmp = 0;
+//	int left = 0;
+//	int right = len - 1;
+//	tmp = arr[left];
+//	arr[left] = arr[right];
+//	arr[right] = '\0';
+//	if (my_strlen(arr+1)>=2)
+//	{
+//		Rserve_sort(arr + 1,my_strlen(arr+1));
+//	}
+//	arr[right] = tmp;
+//}
+//
+//int main()
+//{
+//	char arr[] = "abcdef";
+//	int len = my_strlen(arr);
+//	Rserve_sort(arr,len);
+//	printf("%s", arr);
+//	return 0;
+//}
+
+//设计函数打印出一个非负整数的每一位
+//#include<stdio.h>
+//
+//void Print(int n)
+//{
+//	if (n>9)
+//	{
+//		Print(n / 10);
+//	}
+//	printf("%d ", n % 10);
+//}
+//
+//int main()
+//{
+//	int n = 0;
+//	printf("请输入>:");
+//	scanf("%d", &n);
+//	Print(n);
+//	return 0;
+//}
+
+//函数递归求组成一个非负整数的每一位的和
+////1729
+////DigitSum(172)+1729%10
+////DigitSum(17)+172%10+1729%10
+////DigitSum(1)+...
+//#include<stdio.h>
+//
+//int DigitSum(int n)
+//{
+//	if (n>9)
+//	{
+//		return DigitSum(n / 10) + n % 10;
+//	}
+//	else
+//	{
+//		return n;
+//	}
+//}
+//
+//int main()
+//{
+//	unsigned int n = 0;
+//	scanf("%d", &n);
+//	int ret = DigitSum(n);
+//	printf("ret=%d\n", ret);
+//}
+
+//函数递归求n的k次方
+//#include<stdio.h>
+//
+//double Pow(int n, int k)
+//{
+//	if (k<0)
+//	{
+//		return (1.0 / Pow(n, -k));
+//	}
+//	else if (k == 0)
+//	{
+//		return 1;
+//	}
+//	else
+//	{
+//		return n * Pow(n, k - 1);
+//	}
+//}
+//
+//int main()
+//{
+//	int n = 0;
+//	int k = 0;
+//	scanf("%d%d", &n, &k);
+//	double ret = Pow(n, k);
+//	printf("ret=%lf\n", ret);
+//	return 0;
+//}
+
+//递归和非递归求第n个斐波那契数
+//递归
+//#include<stdio.h>
+//
+//int Fib(int n)
+//{
+//	if (n<=2)
+//	{
+//		return 1;
+//	}
+//	else
+//	{
+//		return Fib(n - 1) + Fib(n - 2);
+//	}
+//}
+//
+//int main()
+//{
+//	int n = 0;
+//	scanf("%d", &n);
+//	int ret = Fib(n);
+//	printf("ret=%d\n", ret);
+//	return 0;
+//}
+
+//非递归
+//#include<stdio.h>
+//
+//int Fib(int n)
+//{
+//	int a = 1;
+//	int b = 1;
+//	int c = 1;
+//	while (n>2)
+//	{
+//		c = a + b;
+//		a = b;
+//		b = c;
+//		n--;
+//	}
+//	return c;
+//}
+//
+//int main()
+//{
+//	int n = 0;
+//	scanf("%d", &n);
+//	int ret = Fib(n);
+//	printf("ret=%d\n", ret);
+//	return 0;
+//}
+
+//设计函数求两个数的最大公约数
 #include<stdio.h>
 
-int Check(int a, int b)
+int MCD(int m, int n)
 {
-	int c = a ^ b;//标记数字不同的位数
-	int i, count = 0;
-	for ( i = 0; i < 32; i++)//计算上述位数的个数
+	int k = 0;
+	while (m%n != 0)
 	{
-		if ((c>>i) & 1 == 1)
-		{
-			count++;
-		}
+		k = m % n;
+		m = n;
+		n = k;
 	}
-	return count;
+	return n;
 }
 
 int main()
 {
-	int a = 3;
-	int b = 5;
-	int ret = Check(a, b);
+	int m, n = 0;
+	scanf("%d%d", &m, &n);
+	int ret = MCD(m, n);
 	printf("ret=%d\n", ret);
-	return 0;
 }
