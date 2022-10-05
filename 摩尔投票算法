@@ -1,0 +1,58 @@
+/*
+
+数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。
+例如输入一个长度为9的数组{1, 2, 3, 2, 2, 2, 5, 4, 2}
+由于数字2在数组中出现了五次，超过数组长度的一半，因此输出2
+如果不存在则输出0
+
+*/
+
+//2.摩尔投票算法（Boyer-Moore Algorithm）
+#include<stdio.h>
+
+int Moore(int arr[], int sz)
+{
+	int major;//第一次进入，第一个元素与第一个元素比较，cnt++
+	int cnt = 0;
+	for (int i = 0; i < sz; i++)
+	{
+		if (cnt == 0)//若cnt为0，则给major重新赋值
+		{
+			major = arr[i];
+		}
+		if (major == arr[i])//两数相等，无法抵消
+		{
+			cnt++;
+		}
+		else//两数不等，进行抵消
+		{
+			cnt--;
+		}
+	}
+	if (cnt == 0)//数组中的数全部一一抵消，说明这样的数不存在
+	{
+		return 0;
+	}
+	else//便利检验剩余的数(major)在数组中的出现次数
+	{
+		int count = 0;
+		for (int i = 0; i < sz; i++)
+		{
+			if (major == arr[i])
+			{
+				count++;
+			}
+		}
+		return count > sz / 2 ? major : 0;
+	}
+}
+
+int main()
+{
+	int arr[] = { 1,2,1,3,1,1,2,1,5 };
+	//int arr[] = { 1,1,2,2,3,3,4,4,4 };
+	int sz = sizeof(arr) / sizeof(arr[0]);
+	int ret = Moore(arr, sz);
+	printf("%d\n", ret);
+	return 0;
+}
