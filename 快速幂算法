@@ -1,0 +1,64 @@
+/*
+求A^B的最后三位数所表示的整数 注：A^B表示A的B次方
+*/
+
+
+//循环
+//#include<stdio.h>
+//
+//int POWER(int base, int power)
+//{
+//	int result = 1;
+//	for (int i = 0; i < power; i++)
+//	{
+//		result = result * base;
+//		result %= 1000;
+//	}
+//	return result % 1000;//(a * b * c) % p =( a%p * b%p * c%p ) % p
+//} 
+//
+//int main()
+//{
+//	int base, power;
+//	scanf("%d %d", &base, &power);
+//	int ret = POWER(base, power);
+//	printf("%d\n", ret);
+//	return 0;
+//}
+
+
+////快速幂算法
+#include<stdio.h>
+
+int POWER(int base, int power)
+{
+	long long result = 1;
+	while (power > 0)
+	{
+		if ((power & 1) == 0)// power % 2 == 0
+		{
+			//指数为偶数
+			power = power >> 1;// pow/2
+			base = base * base % 1000;
+		}
+		else
+		{
+			//指数为奇数
+			//power = power - 1;
+			result = result * base % 1000;//记录并准备好底数
+			power = power / 2;
+			base = base * base % 1000;
+		}
+	}
+	return result;
+}
+
+int main()
+{
+	int base;
+  long long power;
+	scanf("%d %d", &base, &power);
+	int ret = POWER(base, power);
+	printf("%d\n", ret);
+	return 0;
+}
