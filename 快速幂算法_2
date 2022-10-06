@@ -1,0 +1,54 @@
+/*
+给定一个double类型的浮点数base和int类型的整数exponent。求base的exponent次方。保证base和exponent不同时为0.
+*/
+
+//1.循环.略
+
+//2.快速幂算法
+#include<stdio.h>
+
+double POWER(double base, int exp)
+{
+	int result = 1;
+	if (base == 0)
+	{
+		return 0;
+	}
+	else if (exp == 0)
+	{
+		return 1;
+	}
+	else
+	{
+		while (exp > 0)
+		{
+			if ((exp & 1) == 0)
+			{
+				//exp是偶数
+				exp = exp >> 1;
+				base = base * base;
+			}
+			else
+			{
+				//exp是奇数
+				exp = exp - 1;
+				result = result * base;
+				exp = exp >> 1;
+				base = base * base;
+			}
+		}
+	}
+	return result;
+}
+
+int main()
+{
+	double base;
+	int exp;
+	while (scanf("%lf %d", &base, &exp) != EOF)
+	{
+		double ret = POWER(base, exp);
+		printf("%lf\n", ret);
+	}
+	return 0;
+}
