@@ -1,0 +1,17 @@
+//宏定义
+
+#define MAX(x,y) (x>y?x:y)//宏的符号、宏的参数、宏体
+#define SUM(x,y) (x+y) //宏的简单定义
+/*
+宏只适用于处理简单的逻辑
+*/
+#include<stdio.h>
+int main()
+{
+	int a = 10;
+	int b = 20;
+	int max = MAX(a, b);
+	int sum = SUM(a, b);
+	printf("max=%d\nsum=%d\n", max, sum);
+	return 0;
+}
