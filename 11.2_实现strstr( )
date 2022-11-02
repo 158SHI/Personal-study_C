@@ -1,0 +1,46 @@
+char* my_strstr(const char* p1, const char* p2)
+{
+	assert(p1 && p2);
+	char* s1 = p1;
+	char* s2 = p2;
+	char* cur = p1;
+	if (*p2 == '\0')//若要查找的子串为空，则直接返回p1
+	{
+		return p1;
+	}
+	else
+	{
+		while (*cur)
+		{	
+			s1 = cur;//回溯
+			s2 = p2;
+			while ((*s1 != '\0') && (*s2 != '\0') && (*s1==*s2))
+			{
+				s1++;
+				s2++;
+			}
+			if (*s2 == '\0')//找到了指定子串
+			{
+				return cur;
+			}
+			cur++;//进一
+		}
+		return NULL;
+	}
+}
+
+int main()
+{
+	const char* p1 = "abbbcde";
+	const char* p2 = "bbc";//要找的子串
+	char* ret = my_strstr(p1, p2);
+	if (ret == NULL)
+	{
+		printf("该子串不存在\n");
+	}
+	else
+	{
+		printf("%s\n", ret);
+	}
+	return 0;
+}
