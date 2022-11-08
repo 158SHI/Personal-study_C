@@ -1,47 +1,62 @@
 #define _CRT_SECURE_NO_WARNINGS 1
-
-//扫雷
-
 #include"game.h"
+
+//三子棋
 
 void menu()
 {
-	printf("***---------  *扫雷*  -------***\n");
-	printf("***------ *  1.play  * ------***\n");
-	printf("***------ *  0.exit  * ------***\n");
-	printf("***--------------------------***\n");
+	printf("*********-三子棋-*******\n");
+	printf("*******   1.play  ******\n");
+	printf("*******   0.exit  ******\n");
+	printf("************************\n");
 }
 
 void game()
 {
-	//定义棋盘
-	//初始化棋盘
-	//布雷
-	//扫雷
-
-	//定义棋盘
-	char mine[ROWS][ROWS] = { 0 };
-	char show[ROWS][COLS] = { 0 };
-
-	//初始化棋盘
-	Initboard(mine, ROWS, COLS, '0');
-	Initboard(show, ROWS, COLS, '*');
-
-	//打印棋盘测试
-	//Displayboard(mine,ROWS,COLS);
-	Displayboard(show, ROWS, COLS);
-
-	//布雷
-	Setmine(mine,ROWS,COLS);
-	//Displayboard(mine,ROWS,COLS);
-
-	//扫雷
-	Swapmine(mine, show, ROWS, COLS);
+	char board[ROW][COL];
+	init_board(board,ROW,COL);//初始化棋盘为空
+	print_board(board, ROW, COL);//打印棋盘
+	char ret;
+	int count = 0;//判断平局
+	while (1)
+	{
+		player_move(board, ROW, COL);//玩家下
+		count++;//后续判断棋盘是否下满
+		system("cls");
+		print_board(board, ROW, COL);
+		//ret = is_win(board,ROW,COL);//判断输赢
+		ret = is_win(board, ROW, COL,count);//判断输赢
+		if (ret != 'C')
+		{
+			break;
+		}
+		computer_move(board, ROW, COL);//电脑下
+		count++;
+		system("cls");
+		print_board(board, ROW, COL);
+		//ret = is_win(board, ROW, COL);
+		ret = is_win(board, ROW, COL,count);//判断输赢
+		if (ret != 'C')
+		{
+			break;
+		}
+	}
+	if (ret == '*')
+	{
+		printf("恭喜你获得胜利!!!\n");
+	}
+	else if (ret == '#')
+	{
+		printf("很遗憾，你失败了\n");
+	}
+	else if(ret == 'Q')
+	{
+		printf("平局\n");
+	}
 }
 
-int main()
+void test()
 {
-	srand((unsigned int)time(NULL));
 	int input = 0;
 	do
 	{
@@ -51,7 +66,6 @@ int main()
 		switch (input)
 		{
 		case 1:
-			system("cls");
 			game();
 			break;
 		case 0:
@@ -59,10 +73,14 @@ int main()
 			break;
 		default:
 			printf("选择错误，请重新选择\n");
-			Sleep(3000);
-			system("cls");
 			break;
 		}
 	} while (input);
+}
+
+int main()
+{
+	srand((unsigned int)time(NULL));
+ 	test();
 	return 0;
 }
