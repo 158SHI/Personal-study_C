@@ -1,62 +1,21 @@
 #define _CRT_SECURE_NO_WARNINGS 1
-#include"game.h"
 
-//三子棋
+#include"contact.h"
 
-void menu()
+static void menu()
 {
-	printf("*********-三子棋-*******\n");
-	printf("*******   1.play  ******\n");
-	printf("*******   0.exit  ******\n");
-	printf("************************\n");
+	printf("**------- CONTACT --------**\n");
+	printf("**---1.Add-------2.Del----**\n");
+	printf("**---3.Search---4.Modify--**\n");
+	printf("**---5.Show------6.sort---**\n");
+	printf("**---------0.exit---------**\n");
+	printf("***----------------------***\n");
 }
 
-void game()
+void test(void)
 {
-	char board[ROW][COL];
-	init_board(board,ROW,COL);//初始化棋盘为空
-	print_board(board, ROW, COL);//打印棋盘
-	char ret;
-	int count = 0;//判断平局
-	while (1)
-	{
-		player_move(board, ROW, COL);//玩家下
-		count++;//后续判断棋盘是否下满
-		system("cls");
-		print_board(board, ROW, COL);
-		//ret = is_win(board,ROW,COL);//判断输赢
-		ret = is_win(board, ROW, COL,count);//判断输赢
-		if (ret != 'C')
-		{
-			break;
-		}
-		computer_move(board, ROW, COL);//电脑下
-		count++;
-		system("cls");
-		print_board(board, ROW, COL);
-		//ret = is_win(board, ROW, COL);
-		ret = is_win(board, ROW, COL,count);//判断输赢
-		if (ret != 'C')
-		{
-			break;
-		}
-	}
-	if (ret == '*')
-	{
-		printf("恭喜你获得胜利!!!\n");
-	}
-	else if (ret == '#')
-	{
-		printf("很遗憾，你失败了\n");
-	}
-	else if(ret == 'Q')
-	{
-		printf("平局\n");
-	}
-}
-
-void test()
-{
+	struct Contact con;//创建通讯录con
+	InitContact(&con);
 	int input = 0;
 	do
 	{
@@ -65,11 +24,24 @@ void test()
 		scanf("%d", &input);
 		switch (input)
 		{
-		case 1:
-			game();
+		case ADD:
+			AddContact(&con);
 			break;
-		case 0:
-			printf("退出游戏\n");
+		case DEL:
+			DelContact(&con);
+			break;
+		case SEARCH:
+			SearchContact(&con);
+			break;
+		case MODIFY://待完善
+			break;
+		case SHOW:
+			ShowContact(&con);
+			break;
+		case SORT://待完善
+			break;
+		case EXIT:
+			printf("退出通讯录\n");
 			break;
 		default:
 			printf("选择错误，请重新选择\n");
@@ -78,9 +50,9 @@ void test()
 	} while (input);
 }
 
+
 int main()
 {
-	srand((unsigned int)time(NULL));
- 	test();
+	test();
 	return 0;
 }
