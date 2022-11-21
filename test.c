@@ -33,14 +33,17 @@ void test(void)
 		case SEARCH:
 			SearchContact(&con);
 			break;
-		case MODIFY://待完善
+		case MODIFY:
+			ModifyContact(&con);
 			break;
 		case SHOW:
 			ShowContact(&con);
 			break;
-		case SORT://待完善
+		case SORT:
+			SortContact(&con);
 			break;
 		case EXIT:
+			DestoryContact(&con);//free开辟的动态内存空间
 			printf("退出通讯录\n");
 			break;
 		default:

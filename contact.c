@@ -2,6 +2,32 @@
 
 #include"contact.h"
 
+void CheckCap(struct Contact* ps)
+{
+	/*
+	满员就扩容
+	未满不操作
+	*/
+	if (ps->size == ps->capacity)
+	{
+		//扩容
+		//每次增加5个容量
+		struct PeopInfo* ptr = (struct PeopInfo*)realloc(ps->data, (ps->capacity + 5) * sizeof(struct PeopInfo));
+		if (ptr != NULL)
+		{
+			ps->data = ptr;
+			ps->capacity += 5;//增容只是内存扩大，需要capa增加来进行后续判断
+			//printf("扩容成功");
+		}
+	}
+}
+
+static void ScreePauAndCl()
+{
+	system("pause");
+	system("cls");
+}
+
 static int CheckByName(const struct Contact* ps,const char* name)
 {
 	int i = 0;
@@ -20,44 +46,44 @@ static int CheckByName(const struct Contact* ps,const char* name)
 	}
 }
 
-static CheckByTel(const struct Contact* ps, const char* tel)
-{//待升级
-	int i = 0;
-	_Bool flag = false;
-	for (i = 0; i < ps->size; i++)
-	{
-		if (strcmp(tel, ps->data[i].tel) == 0)
-		{
-			flag = true;
-			return i;
-		}
-	}
-	if (flag == false)
-	{
-		return -1;
-	}
-}//待升级
-
-//升级版PRO
-static CheckByTelPro(const struct Contact* ps, const char* tel)
-{
-	_Bool flag = false;
-	for (int i = 0; i < ps->size; i++)
-	{
-		if (strstr(ps->data[i].tel,tel) != NULL)
-		{
-			flag = true;
-			return i;
-		}
-	}
-	if (flag == false)
-	{
-		return -1;
-	}
-}
+//static int CheckByTel(const struct Contact* ps, const char* tel)
+//{//待升级
+//	int i = 0;
+//	_Bool flag = false;
+//	for (i = 0; i < ps->size; i++)
+//	{
+//		if (strcmp(tel, ps->data[i].tel) == 0)
+//		{
+//			flag = true;
+//			return i;
+//		}
+//	}
+//	if (flag == false)
+//	{
+//		return -1;
+//	}
+//}//待升级
+//
+////升级版PRO
+//static int CheckByTelPro(const struct Contact* ps, const char* tel)
+//{
+//	_Bool flag = false;
+//	for (int i = 0; i < ps->size; i++)
+//	{
+//		if (strstr(ps->data[i].tel,tel) != NULL)
+//		{
+//			flag = true;
+//			return i;
+//		}
+//	}
+//	if (flag == false)
+//	{
+//		return -1;
+//	}
+//}
 
 //超级升级版ProMax
-static CheckByTelProMax(const struct Contact* ps, const char* tel,int ReleTel[MAX],int* count)
+static int CheckByTelProMax(const struct Contact* ps, const char* tel,int* ReleTel,int* count)
 {
 	_Bool flag = false;
 	for (int i = 0; i < ps->size; i++)
@@ -77,33 +103,34 @@ static CheckByTelProMax(const struct Contact* ps, const char* tel,int ReleTel[MA
 
 void InitContact(struct Contact* ps)
 {
-	memset(ps->data, 0, sizeof(ps->data));
+	ps->data = (struct PeopInfo*)malloc(DEFAULT_CAP * sizeof(struct PeopInfo));//设置初始容量为5
+	
 	ps->size = 0;
+	ps->capacity = DEFAULT_CAP;
+}
+
+static void AddConOnce(struct Contact* ps,int aim)
+{
+	printf("请输入姓名>: \b");
+	scanf("%s", ps->data[aim].name);
+	printf("请输入年龄>: \b");
+	scanf("%d", &(ps->data[aim].age));
+	printf("请输入性别>: \b");
+	scanf("%s", ps->data[aim].sex);
+	printf("请输入电话>: \b");
+	scanf("%s", ps->data[aim].tel);
+	printf("请输入地址>: \b");
+	scanf("%s", ps->data[aim].adrr);
+	printf("添加成功__\n");
 }
 
 void AddContact(struct Contact* ps)
 {
-	if (ps->size == MAX)
-	{
-		printf("通讯录已满__\n");
-	}
-	else
-	{
-		printf("请输入姓名>: \b");
-		scanf("%s", ps->data[ps->size].name);
-		printf("请输入年龄>: \b");
-		scanf("%d", &(ps->data[ps->size].age));
-		printf("请输入性别>: \b");
-		scanf("%s", ps->data[ps->size].sex);
-		printf("请输入电话>: \b");
-		scanf("%s", ps->data[ps->size].tel);
-		printf("请输入地址>: \b");
-		scanf("%s", ps->data[ps->size].adrr);
-		printf("添加成功__\n");
-		ps->size++;
-		system("pause");
-		system("cls");
-	}
+	CheckCap(ps);//监测元素个数和容量并调整
+
+	AddConOnce(ps, ps->size);
+	ps->size++;
+	ScreePauAndCl();
 }
 
 void PrintOnce(const struct Contact* ps,int i)
@@ -121,8 +148,7 @@ void ShowContact(const struct Contact* ps)
 	if (ps->size == 0)
 	{
 		printf("通讯录为空\n");
-		system("pause");
-		system("cls");
+		ScreePauAndCl();
 	}
 	else
 	{
@@ -146,8 +172,7 @@ void DelContact(struct Contact* ps)
 	if (ret == -1)
 	{
 		printf("要查找的数据不存在\n");
-		system("pause");
-		system("cls");
+		ScreePauAndCl();
 	}
 	//删除
 	else
@@ -158,8 +183,7 @@ void DelContact(struct Contact* ps)
 		}
 		ps->size--;
 		printf("删除成功\n");
-		system("pause");
-		system("cls");
+		ScreePauAndCl();
 	}
 }
 
@@ -194,13 +218,13 @@ static SearchByName(const struct Contact* ps)
 		printf("%-20s\t%-3s\t%-5s\t%-20s\t%-25s\n", "姓名", "年龄", "性别", "电话", "地址");
 		PrintOnce(ps, ret);//打印单个元素
 	}
-	system("pause");
-	system("cls");
+	ScreePauAndCl();
 }
 
-static SearchByTel(const struct Contact* ps)
+static SearchByTel(const struct Contact* ps,int cap)
 {
-	int RelevantTel[MAX] = { 0 };
+	//int RelevantTel[MAX] = { 0 };
+	int* RelevantTel = (int*)malloc(cap * sizeof(int));
 	int count = 0;
 
 	char tel[tel_max];
@@ -236,7 +260,7 @@ again:
 		SearchByName(ps);
 		break;
 	case SEARCH_TEL:
-		SearchByTel(ps);
+		SearchByTel(ps,ps->capacity);
 		break;
 	case SEARCH_EXIT:
 		return;
@@ -245,4 +269,39 @@ again:
 		goto again;
 		break;
 	}
+}
+
+void ModifyContact(struct Contact* ps)
+{
+	char name[name_max];
+	printf("请输入要修改的人的姓名>:");
+	scanf("%s", name);
+	int ret = CheckByName(ps, name);
+	if (ret == -1)
+	{
+		printf("相关信息不存在\n");
+		ScreePauAndCl();
+	}
+	else
+	{
+		AddConOnce(ps, ret);
+		ScreePauAndCl();
+	}
+}
+
+int CompByName(const void* e1,const void* e2)
+{
+	return strcmp(((struct PeopInfo*)e1)->name, ((struct PeopInfo*)e2)->name);
+}
+
+void SortContact(struct Contact* ps)
+{
+	//按姓名排序
+	qsort(ps->data, ps->size, sizeof(ps->data[0]), CompByName);
+}
+
+void DestoryContact(struct Contact* ps)
+{
+	free(ps->data);
+	ps->data = NULL;
 }
