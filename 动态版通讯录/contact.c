@@ -220,26 +220,30 @@ static SearchByTel(const struct Contact* ps,int cap)
 {
 	//int RelevantTel[MAX] = { 0 };
 	int* RelevantTel = (int*)malloc(cap * sizeof(int));
-	int count = 0;
-
-	char tel[tel_max];
-	printf("请输入要查找的电话号码>:");
-	scanf("%s", tel);
-	int ret = CheckByTelProMax(ps,tel,RelevantTel,&count);
-	if (ret == -1)
+	if(RelevantTel != NULL)
 	{
-		printf("要查找的数据不存在\n");
-	}
-	else
-	{
-		system("cls");
-		printf("%-20s\t%-3s\t%-5s\t%-20s\t%-25s\n", "姓名", "年龄", "性别", "电话", "地址");
-		for (int i = 0; i < count; i++)
+		int count = 0;
+		char tel[tel_max];
+		printf("请输入要查找的电话号码>:");
+		scanf("%s", tel);
+		int ret = CheckByTelProMax(ps,tel,RelevantTel,&count);
+		if (ret == -1)
 		{
-			PrintOnce(ps, RelevantTel[i]);//打印单个元素
+			printf("要查找的数据不存在\n");
 		}
+		else
+		{
+			system("cls");
+			printf("%-20s\t%-3s\t%-5s\t%-20s\t%-25s\n", "姓名", "年龄", "性别", "电话", "地址");
+			for (int i = 0; i < count; i++)
+			{
+				PrintOnce(ps, RelevantTel[i]);//打印单个元素
+			}
+		}
+		system("pause");
 	}
-	system("pause");
+	
+	free(RelevantTel);
 }
 
 void SearchContact(const struct Contact* ps)
