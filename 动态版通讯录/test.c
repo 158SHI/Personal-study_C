@@ -8,7 +8,7 @@ static void menu()
 	printf("**---1.Add-------2.Del----**\n");
 	printf("**---3.Search---4.Modify--**\n");
 	printf("**---5.Show------6.sort---**\n");
-	printf("**---------0.exit---------**\n");
+	printf("**------0.save&exit-------**\n");
 	printf("***----------------------***\n");
 }
 
@@ -43,6 +43,7 @@ void test(void)
 			SortContact(&con);
 			break;
 		case EXIT:
+			SaveContact(&con);//将数据保存到文件中
 			DestoryContact(&con);//free开辟的动态内存空间
 			printf("退出通讯录\n");
 			break;

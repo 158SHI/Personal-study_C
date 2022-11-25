@@ -5,6 +5,7 @@
 #include<Windows.h>
 #include<stdbool.h>
 #include<stdlib.h>
+#include<errno.h>
 
 #define name_max 20
 #define sex_max 5
@@ -47,3 +48,5 @@ void SearchContact(const struct Contact* ps);
 void ModifyContact(struct Contact* ps);
 void SortContact(struct Contact* ps);
 void DestoryContact(struct Contact* ps);
+void SaveContact(struct Contact* ps);
+void LoadContact(struct Contact* ps);
