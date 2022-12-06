@@ -1,0 +1,30 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+
+
+int** generate(int numRows, int* returnSize, int** returnColumnSizes)
+{
+    //预开辟numRows行空间
+    int** ret = malloc(sizeof(int*) * numRows);
+
+    //共numRows个数组元素
+    *returnSize = numRows;
+
+    //记录每行的元素个数的数组
+    *returnColumnSizes = malloc(sizeof(int) * numRows);
+
+    for (int i = 0; i < numRows; ++i)
+    {
+        //为每行开辟空间
+        ret[i] = malloc(sizeof(int) * (i + 1));
+
+        //记录每行的元素个数（每个子数组的大小）
+        (*returnColumnSizes)[i] = i + 1;
+
+        ret[i][0] = ret[i][i] = 1;
+        for (int j = 1; j < i; ++j)
+        {
+            ret[i][j] = ret[i - 1][j] + ret[i - 1][j - 1];
+        }
+    }
+    return ret;
+}
