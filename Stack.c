@@ -24,6 +24,7 @@ void StackPush(ST* st, const STDataType x)
 		if (tmp != NULL)
 		{
 			st->data = tmp;
+			st->capacity += EXP_SIZE;
 		}
 		else
 		{
@@ -51,7 +52,7 @@ void StackDestory(ST* st)
 STDataType StackTopData(const ST* st)
 {
 	assert(st);
-	assert(st->top > 0);//²»ÔÊÐíÕ»Îª¿Õ
+	assert(st->top > 0);//Â²Â»Ã”ÃŠÃÃ­Ã•Â»ÃŽÂªÂ¿Ã•
 	return st->data[st->top - 1];
 }
 
