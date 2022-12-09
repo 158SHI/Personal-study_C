@@ -4,7 +4,10 @@
 #include<assert.h>
 #include<stdlib.h>
 
-typedef int QDataType;
+struct BinaryTree;
+typedef struct BinaryTree BTNode;
+
+typedef BTNode* QDataType;
 
 typedef struct QueueNode
 {

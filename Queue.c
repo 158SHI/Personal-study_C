@@ -38,12 +38,14 @@ void QueuePop(Queue* q)
 	assert(q);
 	assert(q->head);//不允许队列为空
 
+	//只有一个元素
 	if (q->head->next == NULL)
 	{
 		free(q->head);
 		q->head = NULL;
 		q->tail = NULL;
 	}
+	//有多个元素
 	else
 	{
 		QueueNode* next = q->head->next;
