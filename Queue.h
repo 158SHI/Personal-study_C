@@ -1,31 +1,29 @@
-#define _CRT_SECURE_NO_WARNINGS 1
+#pragma once
 
 #include<stdio.h>
-#include<assert.h>
 #include<stdlib.h>
+#include<assert.h>
+#include<stdbool.h>
 
-struct BinaryTree;
-typedef struct BinaryTree BTNode;
-
-typedef BTNode* QDataType;
+typedef int QueueDataType;
 
 typedef struct QueueNode
 {
-	QDataType data;
+	QueueDataType data;
 	struct QueueNode* next;
 }QueueNode;
 
 typedef struct Queue
 {
+	//用两个指针维护队列
 	QueueNode* head;
 	QueueNode* tail;
 }Queue;
 
-void QueueInit(Queue* q);
-void QueuePush(Queue* q, QDataType x);
+void InitQueue(Queue* q);
+void QueuePush(Queue* q, QueueDataType x);
 void QueuePop(Queue* q);
-void QueueDestory(Queue* q);
-QDataType QueueHeadData(const Queue* q);
-QDataType QueueTailData(const Queue* q);
 _Bool QueueEmpty(Queue* q);
-int QueueSize(const Queue* q);
+QueueDataType QueueTailData(Queue* q); 
+QueueDataType QueueTopData(Queue* q);
+void QueueDestory(Queue* q);

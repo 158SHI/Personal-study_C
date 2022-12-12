@@ -2,50 +2,55 @@
 
 #include"Queue.h"
 
-void Test(void)
+void test(void)
 {
 	Queue q;
-	QueueInit(&q);
-
-	QueuePush(&q, 1);
-	QueuePush(&q, 2);
-	QueuePush(&q, 3);
-	QueuePush(&q, 4);
-
-	printf("%d\n", QueueHeadData(&q));
-	printf("%d\n", QueueTailData(&q));
-
-	QueuePop(&q);
-	
-	printf("%d\n", QueueHeadData(&q));
-
-	QueueDestory(&q);
-}
-
-void Test2(void)
-{
-	Queue q;
-	QueueInit(&q);
-
+	InitQueue(&q);
 	QueuePush(&q, 1);
 	QueuePush(&q, 2);
 	QueuePush(&q, 3);
 	QueuePush(&q, 4);
 	QueuePush(&q, 5);
 
-	printf("%d\n", QueueSize(&q));
+	QueueTailData(&q);
+	QueueTopData(&q);
 
-	while (!QueueEmpty(&q))
-	{
-		printf("%d ", QueueHeadData(&q));
-		QueuePop(&q);
-	}
+	QueuePop(&q);
+	QueuePop(&q);
+
+	QueueDestory(&q);
+}
+
+void test2(void)
+{
+	Queue q;
+	InitQueue(&q);
+	QueuePush(&q, 1);
+	QueuePush(&q, 2);
+	QueuePush(&q, 3);
+	QueuePush(&q, 4);
+	QueuePush(&q, 5);
 	
-	printf("\n%d\n", QueueSize(&q));
+	if (!QueueEmpty(&q))
+	{
+		printf("Tail:%d\n", QueueTailData(&q));
+		printf("Top:%d\n", QueueTopData(&q));
+	}
+
+	QueuePop(&q);
+	QueuePop(&q);
+
+	if (!QueueEmpty(&q))
+	{
+		printf("Tail:%d\n", QueueTailData(&q));
+		printf("Top:%d\n", QueueTopData(&q));
+	}
+
+	QueueDestory(&q);
 }
 
 int main()
 {
-	Test2();
+	test2();
 	return 0;
 }

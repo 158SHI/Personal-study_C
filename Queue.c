@@ -2,86 +2,40 @@
 
 #include"Queue.h"
 
-void QueueInit(Queue* q)
+void InitQueue(Queue* q)
 {
-	assert(q);
-	q->tail = NULL;
 	q->head = NULL;
+	q->tail = NULL;
 }
 
-void QueuePush(Queue* q, QDataType x)
+QueueNode* BuyNode(QueueDataType x)
+{
+	QueueNode* NewNode = (QueueNode*)malloc(sizeof(QueueNode));
+	if (NewNode == NULL)
+	{
+		perror("Buynode:");
+		exit(-1);
+	}
+	NewNode->data = x;
+	NewNode->next = NULL;
+	return NewNode;
+}
+
+void QueuePush(Queue* q, QueueDataType x)
 {
 	assert(q);
-	QueueNode* newnode = (QueueNode*)malloc(sizeof(QueueNode));
-	if (newnode == NULL)
-	{
-		perror("newnode:");
-		return;
-	}
-	newnode->data = x;
-	newnode->next = NULL;
 
+	QueueNode* NewNode = BuyNode(x);
 	if (q->tail == NULL)
 	{
-		q->head = newnode;
-		q->tail = newnode;
+		q->head = NewNode;
+		q->tail = NewNode;
 	}
 	else
 	{
-		q->tail->next = newnode;
-		q->tail = newnode;
+		q->tail->next = NewNode;
+		q->tail = NewNode;
 	}
-}
-
-void QueuePop(Queue* q)
-{
-	assert(q);
-	assert(q->head);//不允许队列为空
-
-	//只有一个元素
-	if (q->head->next == NULL)
-	{
-		free(q->head);
-		q->head = NULL;
-		q->tail = NULL;
-	}
-	//有多个元素
-	else
-	{
-		QueueNode* next = q->head->next;
-		free(q->head);
-		q->head = next;
-	}
-}
-
-void QueueDestory(Queue* q)
-{
-	assert(q);
-	assert(q->head);
-
-	QueueNode* next = NULL;
-	
-	while (q->head)
-	{
-		next = q->head->next;
-		free(q->head);
-		q->head = next;
-	}
-	q->tail = NULL;
-}
-
-QDataType QueueHeadData(const Queue* q)
-{
-	assert(q);
-	assert(q->head);
-	return q->head->data;
-}
-
-QDataType QueueTailData(const Queue* q)
-{
-	assert(q);
-	assert(q->head);
-	return q->tail->data;
 }
 
 _Bool QueueEmpty(Queue* q)
@@ -90,14 +44,37 @@ _Bool QueueEmpty(Queue* q)
 	return q->head == NULL;
 }
 
-int QueueSize(const Queue* q)
+QueueDataType QueueTailData(Queue* q)
 {
-	QueueNode* cur = q->head;
-	int size = 0;
-	while (cur)
+	assert(q);
+	assert(q->head);
+	return q->tail->data;
+}
+
+QueueDataType QueueTopData(Queue* q)
+{
+	assert(q);
+	assert(q->head);
+	return q->head->data;
+}
+
+void QueuePop(Queue* q)
+{
+	assert(q);
+	assert(q->head->next);//不允许只剩一个元素
+
+	QueueNode* next = q->head->next;
+	free(q->head);
+	q->head = next;
+}
+
+void QueueDestory(Queue* q)
+{
+	while (q->head->next)
 	{
-		size++;
-		cur = cur->next;
+		QueuePop(q);
 	}
-	return size;
+	free(q->head);
+	q->head = NULL;
+	q->tail = NULL;
 }
