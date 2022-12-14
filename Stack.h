@@ -1,26 +1,21 @@
 #pragma once
 
 #include<stdio.h>
-#include<assert.h>
 #include<stdlib.h>
-#include<stdbool.h>
+#include<assert.h>
+#include<string.h>
 
-
-#define INIT_SIZE 5
+#define INIT_SIZE 10
 #define EXP_SIZE 5
 
-typedef int STDataType;
+typedef int StackDataType;
 
 typedef struct Stack
 {
-	STDataType* data;
-	int top;
+	StackDataType* pdata;
+	int size;
 	int capacity;
-}ST;
+}Stack;
 
-void StackInit(ST* st);
-void StackPush(ST* st, const STDataType x);
-void StackPop(ST* st);
-void StackDestory(ST* st);
-STDataType StackTopData(const ST* st);
-_Bool StackEmpty(const ST* st);
+void StackInit(Stack* s);
+void StackPush(Stack* s, StackDataType x);

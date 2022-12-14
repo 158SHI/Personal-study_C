@@ -2,62 +2,29 @@
 
 #include"Stack.h"
 
-void StackInit(ST* st)
+void StackInit(Stack* s)
 {
-	st->data = (STDataType*)malloc(INIT_SIZE * sizeof(STDataType));
-	if (st->data == NULL)
-	{
-		perror("StackInit:");
-		return;
-	}
-	st->capacity = INIT_SIZE;
-	st->top = 0;
+	s->pdata = (StackDataType*)calloc(INIT_SIZE, sizeof(StackDataType));
+	s->size = 0;
+	s->capacity = INIT_SIZE;
 }
 
-void StackPush(ST* st, const STDataType x)
+void IsFullAndExpand(Stack* s)
 {
-	assert(st);
-	if (st->top == st->capacity)
+	if (s->size == s->capacity)
 	{
-		//expand
-		STDataType* tmp = (STDataType*)realloc(st->data, sizeof(STDataType) * (st->top + EXP_SIZE));
+		StackDataType* tmp = (StackDataType*)realloc(s->pdata,
+			sizeof(StackDataType) * (s->size + EXP_SIZE));
 		if (tmp != NULL)
 		{
-			st->data = tmp;
-			st->capacity += EXP_SIZE;
-		}
-		else
-		{
-			perror("Expand:");
-			return;
+			s->pdata = tmp;
 		}
 	}
-	st->data[st->top] = x;
-	st->top++;
 }
 
-void StackPop(ST* st)
+void StackPush(Stack* s, StackDataType x)
 {
-	assert(st);
-	assert(st->top > 0);
-	st->top--;
-}
-
-void StackDestory(ST* st)
-{
-	free(st->data);
-	st->data = NULL;
-}
-
-STDataType StackTopData(const ST* st)
-{
-	assert(st);
-	assert(st->top > 0);//²»ÔÊÐíÕ»Îª¿Õ
-	return st->data[st->top - 1];
-}
-
-_Bool StackEmpty(const ST* st)
-{
-	assert(st);
-	return st->top == 0;
+	IsFullAndExpand(s);
+	s->pdata[s->size] = x;
+	s->size++;
 }
