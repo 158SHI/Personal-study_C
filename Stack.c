@@ -4,27 +4,54 @@
 
 void StackInit(Stack* s)
 {
-	s->pdata = (StackDataType*)calloc(INIT_SIZE, sizeof(StackDataType));
+	assert(s);
+	s->data = (StackDataType*)malloc(sizeof(StackDataType) * INIT_SIZE);
+	if (s->data == NULL)
+	{
+		perror("StackInit:");
+		exit(-1);
+	}
 	s->size = 0;
 	s->capacity = INIT_SIZE;
 }
 
-void IsFullAndExpand(Stack* s)
+void StackPush(Stack* s, const StackDataType x)
 {
+	assert(s);
+
 	if (s->size == s->capacity)
 	{
-		StackDataType* tmp = (StackDataType*)realloc(s->pdata,
-			sizeof(StackDataType) * (s->size + EXP_SIZE));
+		StackDataType* tmp = (StackDataType*)realloc(s->data,
+			(s->size + EXP_SIZE) * sizeof(StackDataType));
 		if (tmp != NULL)
 		{
-			s->pdata = tmp;
+			s->data = tmp;
+			s->capacity += EXP_SIZE;
+		}
+		else
+		{
+			perror("Expand:");
+			exit(-1);
 		}
 	}
+	s->data[s->size] = x;
+	s->size++;
 }
 
-void StackPush(Stack* s, StackDataType x)
+void StackPop(Stack* s)
 {
-	IsFullAndExpand(s);
-	s->pdata[s->size] = x;
-	s->size++;
+	assert(s);
+	s->size--;
+}
+
+StackDataType StackTopData(Stack* s)
+{
+	assert(s);
+	assert(s->size != 0);
+	return s->data[s->size - 1];
+}
+
+_Bool StackEmpty(Stack* s)
+{
+	return s->size == 0;
 }
