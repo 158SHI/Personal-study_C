@@ -1,0 +1,199 @@
+#include"mine.h"
+
+//全局变量记录最近一次的落子位置，减少传参
+int x = 0;
+int y = 0;
+
+void menu()
+{
+  printf("##---------------------##\n");
+  printf("##---1. play  0.exit---##\n");
+  printf("##---------------------##\n");
+}
+
+void MineInit(int (*p)[ROW], int row, int col)
+{
+  memset(p, 0, sizeof(int) * row * col);
+}
+
+void MineDisplay(int (*p)[ROW], int row, int col)
+{
+  int i = 0;
+  int j = 0;
+  printf("   ");
+  for(i = 0; i < col; i++)
+  {
+    printf("%3d", i);
+  }
+  printf("\n");
+  for(i = 0; i < row; i++)
+  {
+    printf("%3d ", i);
+    for(j = 0; j < col; j++)
+    {
+      if(p[i][j] == 0)
+      {
+        printf(" . ");
+      }
+      else if(p[i][j] == 1)
+      {
+        printf(" o ");
+      }
+      else
+      {
+        printf(" x ");
+      }
+    }
+    printf("\n");
+  }
+}
+
+void Move(int (*p)[ROW], int row, int col, int play)
+{
+  printf("player%d move>", play);
+  while(1)
+  {
+    printf("Please input your coordinates:");
+    scanf("%d %d", &x, &y);
+    if(x >= 0 && x < row && y >= 0 && y < col)
+    {
+      //合法
+      if(p[x][y] == 0)
+      {
+        p[x][y] = play;
+        break;
+      }
+      else
+      {
+        printf("This location is already occupied!\n");
+      }
+    }
+    else
+    {
+      printf("Illegal Input,try again!\n");
+    }
+  }
+}
+
+int ChessCount(int (*p)[ROW], int row, int col, enum DIREC d)
+{
+  int _x = x;
+  int _y = y;
+  int count = 0;
+  while(1)
+  {
+    switch (d)
+    {
+      case LEFT:
+        _y--;
+        break;
+      case RIGHT:
+        _y++;
+        break;
+      case UP:
+        _x--;
+        break;
+      case DOWN:
+        _x++;
+        break;
+      case UP_RIGHT:
+        _x--, _y++;
+        break;
+      case UP_LEFT:
+        _x--, _y--;
+        break;
+      case DOWN_LEFT:
+        _x++, _y--;
+        break;
+      case DOWN_RIGHT:
+        _x++, _y++;
+        break;
+      default:
+        break;
+    }
+
+    if(_x < 0 || _x >= row || _y < 0 || _y >= col)
+    {
+      break;
+    }
+
+    if(p[_x][_y] == p[x][y])
+    {
+      count++;
+    }
+    else
+    {
+      break;
+    }
+  }
+  return count;
+}
+
+int IsOver(int (*p)[ROW], int row, int col)
+{
+  int count1 = ChessCount(p, row, col, LEFT) + ChessCount(p, row, col, RIGHT) + 1;
+  int count2 = ChessCount(p, row, col, UP) + ChessCount(p, row, col, DOWN) + 1;
+  int count3 = ChessCount(p, row, col, UP_LEFT) + ChessCount(p, row, col, DOWN_RIGHT) + 1;
+  int count4 = ChessCount(p, row, col, UP_RIGHT) + ChessCount(p, row, col, DOWN_LEFT) + 1;
+
+  if(count1 >= 5 || count2 >= 5 || count3 >= 5 || count4 >= 5)
+  {
+    //有人胜出
+    return p[x][y];
+  }
+  else
+  {
+    int i = 0;
+    int j = 0;
+    for(i = 0; i < row; i++)
+    {
+      for(j = 0; j < col; j++)
+      {
+        if(p[i][j] == 0)
+        {
+          return CONTINUE;
+        }
+      }
+    }
+    return DRAW;
+  }
+}
+
+void game(void)
+{
+
+   int mine[ROW][COL];
+   int over = 0;
+   MineInit(mine, ROW, COL);
+   MineDisplay(mine, ROW, COL);
+   while(1)
+   {
+     Move(mine, ROW, COL, PLAYER1);
+     MineDisplay(mine, ROW, COL);
+     over = IsOver(mine, ROW, COL);
+     if(over != CONTINUE)
+     {
+       break;
+     }
+
+     Move(mine, ROW, COL, PLAYER2);
+     MineDisplay(mine, ROW, COL);
+     over = IsOver(mine, ROW, COL);
+     if(over != CONTINUE)
+     {
+       break;
+     }
+   }
+   if(over == PL1)
+   {
+     printf("player1 win!\n");
+   }
+   else if(over == PL2)
+   {
+     printf("player2 win!\n");
+   }
+   else
+   {
+     printf("draw!\n");
+   }
+}
