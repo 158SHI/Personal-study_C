@@ -2,143 +2,114 @@
 
 #include"SeqList.h"
 
-//实现功能接口
-
-void InitSeqList(SeqList* ps)
+void SeqListInit(SeqList* sq)
 {
-	assert(ps);
-	SqType* str = malloc(Init * sizeof(SqType));
-	if (str == NULL)
+	assert(sq);
+	sq->data = (SeqListDataType*)malloc(sizeof(SeqListDataType) * INIT_SIZE);
+	if (sq->data == NULL)
 	{
-		printf("Init:%s\n", strerror(errno));
-		system("pause");
-		return;
+		perror("InitSeqList:");
+		exit(-1);
 	}
-	else
-	{
-		ps->parr = str;
-		ps->size = 0;
-		ps->SizeMax = Init;
-
-		memset(ps->parr, 0, ps->SizeMax * sizeof(SqType));
-	}
+	sq->size = 0;
+	sq->capacity = INIT_SIZE;
 }
 
-static void IsFUll(SeqList* ps)
+_Bool SeqListEmpty(SeqList* sq)
 {
-	if (ps->size == ps->SizeMax)
+	assert(sq);
+	return sq->size == 0;
+}
+
+int SeqListSearch(SeqList* sq, const SeqListDataType x)
+{
+	assert(sq);
+	for (int i = 0; i < sq->size; i++)
 	{
-		SqType* str = realloc(ps->parr, sizeof(SqType) * (Add + ps->SizeMax));
-		if (str != NULL)
+		if (sq->data[i] == x)
 		{
-			ps->parr = str;
-			ps->SizeMax += Add;
-			memset(&(ps->parr[ps->size]), 0, Add * sizeof(SqType));
+			return i;
 		}
 	}
+	return -1;
+}
+
+void JudgeAndExp(SeqList* sq)
+{
+	if (sq->size == sq->capacity)
+	{
+		SeqListDataType* tmp = (SeqListDataType*)realloc(sq->data, 
+			sizeof(SeqListDataType) * (sq->size + EXP_SIZE));
+		if (tmp != NULL)
+		{
+			sq->data = tmp;
+			sq->capacity += EXP_SIZE;
+		}
+		else
+		{
+			perror("EXP:");
+			exit(-1);
+		}
+	}
+}
+
+void SeqListPushHead(SeqList* sq, const SeqListDataType x)
+{
+	assert(sq);
+	JudgeAndExp(sq);
+	if (sq->size == 0)
+	{
+		SeqListPushBack(sq, x);
+	}
 	else
 	{
-		printf("Realloc:%s\n", strerror(errno));
-		system("pause");
-		return;
+		for (int i = sq->size - 1; i >= 0; i--)
+		{
+			sq->data[i + 1] = sq->data[i];
+		}
+		sq->data[0] = x;
+		sq->size++;
 	}
 }
 
-static _Bool IsEmpty(SeqList* ps)
+void SeqListPushBack(SeqList* sq, const SeqListDataType x)
 {
-	if (ps->size == 0)
+	assert(sq);
+	sq->data[sq->size] = x;
+	sq->size++;
+}
+
+void SeqListDisplay(SeqList* sq)
+{
+	assert(sq);
+	if (sq->size == 0)
 	{
-		return true;
+		printf("NULL\n");
 	}
 	else
 	{
-		return false;
+		for (int i = 0; i < sq->size; i++)
+		{
+			printf("%d ", sq->data[i]);
+		}
+		printf("\n");
 	}
 }
 
-void SeqPushBack(SeqList* ps, SqType x)
+void SeqListPopBack(SeqList* sq)
 {
-	assert(ps);
-	IsFUll(ps);
-	ps->parr[ps->size] = x;
-	ps->size++;
+	assert(sq);
+	assert(sq->size != 0);
+	sq->size--;
 }
 
-void SeqPushFront(SeqList* ps, SqType x)
+void SeqListPopHead(SeqList* sq)
 {
-	assert(ps);
-
-	IsFUll(ps);
-	SqType cur = ps->size - 1;
-	while (cur >= 0)
+	assert(sq);
+	assert(sq->size != 0);
+	for (int i = 0; i < sq->size - 1; i++)
 	{
-		ps->parr[cur + 1] = ps->parr[cur];
-		cur--;
+		sq->data[i] = sq->data[i + 1];
 	}
-	ps->parr[0] = x;
-
-	ps->size++;
-}
-
-void SeqPopBack(SeqList* ps)
-{
-	assert(ps);
-
-	if (IsEmpty(ps))
-	{
-		printf("Empty__\n");
-		system("pause");
-
-		return;
-	}
-
-	ps->parr[ps->size - 1] = 0;
-	ps->size--;
-}
-
-void SeqPopFront(SeqList* ps)
-{
-	assert(ps);
-
-	if (IsEmpty(ps))
-	{
-		printf("Empty__\n");
-		system("pause");
-
-		return;
-	}
-
-	SqType cur = 0;
-	while (cur < ps->size -1)
-	{
-		ps->parr[cur] = ps->parr[cur + 1];
-		cur++;
-	}
-	ps->parr[ps->size - 1] = 0;
-	ps->size--;
-}
-
-void Show(const SeqList* ps)
-{
-	assert(ps);
-
-	if (IsEmpty(ps))
-	{
-		printf("Empty__\n");
-		system("pause");
-		return;
-	}
-
-	for (int i = 0; i < ps->size; i++)
-	{
-		printf("%d ", ps->parr[i]);
-	}
-	printf("\n");
-	system("pause");
-}
-
-void Exit(SeqList* ps)
-{
-	free(ps->parr);
-	ps->parr = NULL;
+	sq->size--;
 }

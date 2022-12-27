@@ -1,42 +1,28 @@
 #pragma once
 
-#include<string.h>
+
 #include<stdio.h>
-#include<assert.h>
 #include<stdlib.h>
-#include<errno.h>
+#include<assert.h>
 #include<stdbool.h>
 
-enum Option
-{
-	EXIT,
-	ADDBACK,
-	ADDFRONT,
-	POPBACK,
-	POPFRONT,
-	SHOW
-};
+#define INIT_SIZE 10
+#define EXP_SIZE 10
 
-
-// µœ÷À≥–Ú±Ì
-
-#define Init 5
-#define Add 5
-
-typedef int SqType;
+typedef int SeqListDataType;
 
 typedef struct SeqList
 {
-	SqType* parr;
+	SeqListDataType* data;
 	int size;
-	int SizeMax;
+	int capacity;
 }SeqList;
 
-
-void InitSeqList(SeqList* ps);
-void SeqPushBack(SeqList* ps, SqType x);
-void SeqPushFront(SeqList* ps, SqType x);
-void SeqPopBack(SeqList* ps);
-void SeqPopFront(SeqList* ps);
-void Show(SeqList* ps);
-void Exit(SeqList* ps);
+void SeqListInit(SeqList* sq);
+_Bool SeqListEmpty(SeqList* sq);
+int SeqListSearch(SeqList* sq, const SeqListDataType x);
+void SeqListPushHead(SeqList* sq, const SeqListDataType x);
+void SeqListPushBack(SeqList* sq, const SeqListDataType x);
+void SeqListDisplay(SeqList* sq);
+void SeqListPopBack(SeqList* sq);
+void SeqListPopHead(SeqList* sq);
