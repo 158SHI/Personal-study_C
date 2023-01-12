@@ -1,61 +1,79 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 
-#include"contact.h"
+#include<stdio.h>
+#include<stdlib.h>
 
-static void menu()
-{
-	printf("**------- CONTACT --------**\n");
-	printf("**---1.Add-------2.Del----**\n");
-	printf("**---3.Search---4.Modify--**\n");
-	printf("**---5.Show------6.sort---**\n");
-	printf("**---------0.exit---------**\n");
-	printf("***----------------------***\n");
-}
 
-void test(void)
+typedef struct ListNode
 {
-	struct Contact con;//创建通讯录con
-	InitContact(&con);
-	int input = 0;
-	do
-	{
-		menu();
-		printf("请选择>:");
-		scanf("%d", &input);
-		switch (input)
-		{
-		case ADD:
-			AddContact(&con);
-			break;
-		case DEL:
-			DelContact(&con);
-			break;
-		case SEARCH:
-			SearchContact(&con);
-			break;
-		case MODIFY:
-			ModifyContact(&con);
-			break;
-		case SHOW:
-			ShowContact(&con);
-			break;
-		case SORT:
-			SortContact(&con);
-			break;
-		case EXIT:
-			DestoryContact(&con);//free开辟的动态内存空间
-			printf("退出通讯录\n");
-			break;
-		default:
-			printf("选择错误，请重新选择\n");
-			break;
-		}
-	} while (input);
+	int val;
+	struct ListNode* next;	
+}ListNode;
+
+struct ListNode* deleteNode(struct ListNode* head, int val)
+{
+    if (head == NULL)
+    {
+        return NULL;
+    }
+    
+    ListNode* pre = NULL;
+    ListNode* i = head;
+    ListNode* j = head;
+    
+    while (i != NULL)
+    {
+        if (i->val != val)
+        {
+            j->val = i->val;
+            i = i->next;
+            pre = j;
+            j = j->next;
+            
+        }
+        else
+        {
+            i = i->next;
+        }
+    }
+    if (pre != NULL)
+    {
+        pre->next = NULL;
+    }
+    return head;
 }
 
 
 int main()
 {
-	test();
+	ListNode* A = (ListNode*)malloc(sizeof(ListNode));
+	A->val = 4;
+	A->next = NULL;
+
+	ListNode* B = (ListNode*)malloc(sizeof(ListNode));
+	B->val = 5;
+	B->next = NULL;
+
+	ListNode* C = (ListNode*)malloc(sizeof(ListNode));
+	C->val = 1;
+	C->next = NULL;
+
+
+	ListNode* D = (ListNode*)malloc(sizeof(ListNode));
+	D->val = 9;
+	D->next = NULL;
+
+	A->next = B;
+	B->next = C;
+	C->next = D;
+
+    deleteNode(A, 5);
+    ListNode* cur = A;
+    while (cur)
+    {
+        printf("%d->", cur->val);
+        cur = cur->next;
+    }
+
 	return 0;
 }
