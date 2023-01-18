@@ -1,79 +1,50 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 
 #include<stdio.h>
-#include<stdlib.h>
 
-
-typedef struct ListNode
+int* singleNumbers(int* nums, int numsSize, int* returnSize)
 {
-	int val;
-	struct ListNode* next;	
-}ListNode;
+    *returnSize = 2;
+    int* retNums = (int*)malloc(sizeof(int) * 2);
 
-struct ListNode* deleteNode(struct ListNode* head, int val)
-{
-    if (head == NULL)
+    int key = 0;
+    for (int i = 0; i < numsSize; i++)
     {
-        return NULL;
+        key ^= nums[i];//key为两数异或运算的结果
     }
-    
-    ListNode* pre = NULL;
-    ListNode* i = head;
-    ListNode* j = head;
-    
-    while (i != NULL)
+    int zeroEnd = 0;
+    while (((key >> zeroEnd) & 1) == 0)
     {
-        if (i->val != val)
+        zeroEnd++;
+    }
+    int ret_ze = 0;
+    int ret_nZe = 0;
+    for (int i = 0; i < numsSize; i++)
+    {
+        if ((nums[i] >> zeroEnd) & 1)//1
         {
-            j->val = i->val;
-            i = i->next;
-            pre = j;
-            j = j->next;
-            
+            ret_nZe ^= nums[i];
         }
         else
         {
-            i = i->next;
+            ret_ze ^= nums[i];
         }
     }
-    if (pre != NULL)
-    {
-        pre->next = NULL;
-    }
-    return head;
+    retNums[0] = ret_ze;
+    retNums[1] = ret_nZe;
+    return retNums;
 }
 
+void test1(void)
+{
+    int nums[] = { 1, 2, 5, 2 };
+    int retSz = 0;
+    singleNumbers(nums, 4, &retSz);
+
+}
 
 int main()
 {
-	ListNode* A = (ListNode*)malloc(sizeof(ListNode));
-	A->val = 4;
-	A->next = NULL;
-
-	ListNode* B = (ListNode*)malloc(sizeof(ListNode));
-	B->val = 5;
-	B->next = NULL;
-
-	ListNode* C = (ListNode*)malloc(sizeof(ListNode));
-	C->val = 1;
-	C->next = NULL;
-
-
-	ListNode* D = (ListNode*)malloc(sizeof(ListNode));
-	D->val = 9;
-	D->next = NULL;
-
-	A->next = B;
-	B->next = C;
-	C->next = D;
-
-    deleteNode(A, 5);
-    ListNode* cur = A;
-    while (cur)
-    {
-        printf("%d->", cur->val);
-        cur = cur->next;
-    }
-
-	return 0;
+    test1();
+    return 0;
 }
