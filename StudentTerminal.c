@@ -2,20 +2,55 @@
 
 #include"PracTopicSelecMana.h"
 
+enum StuOption
+{
+	EXIT,
+	CHECK_ALL,
+	CHECK_MINE,
+	MODIFY_MINE
+};
+
 static void StuOption(void)
 {
-
-
+	printf("+------------------+\n");
+	printf("+--1.查看全部选题--+\n");
+	printf("+--2.查看我的选题--+\n");
+	printf("+--3.修改我的选题--+\n");
+	printf("+----0.退出登陆----+\n");
+	printf("+------------------+\n");
 }
 
 static void NewStuLogin(Stu* newStu)
 {
-	
+	assert(newStu);
+	printf("用户注册>\n");
+	printf("请输入你的姓名>:");
+	scanf("%s", newStu->name);
+	printf("请输入你的年龄>:");
+	scanf("%d", &(newStu->age));
+	printf("请输入你的性别>:");
+	scanf("%s", newStu->sex);
+	printf("请输入你的专业>:");
+	scanf("%s", newStu->major);
+	printf("请输入你的班级>:");
+	scanf("%s", newStu->class);
+}
 
+void StuLoginSuccessfully(const Stu* stu, Stu_list* s_l)
+{
+	assert(stu && s_l);
+	system("cls");
+	printf("注册成功_\n");
+	printf("%-10s\t%-5s\t%-5s\t%-12s\t%-20s\t%-15s\n",
+		"姓名", "年龄", "性别", "学号", "专业", "班级");
+	printf("%-10s\t%-5d\t%-5s\t%-12s\t%-15s\t%-15s\n", 
+		stu->name, stu->age, stu->sex, stu->ID, stu->major, stu->class);
+	ManaPush(s_l, stu);//将学生信息加入注册表
 }
 
 Stu* StuLogin(Stu_list* s_l)
 {
+	assert(s_l);
 	char Id[ID_MAX] = { 0 };
 	printf("请输入你的学号>:");
 	scanf("%s", Id);
@@ -26,6 +61,7 @@ Stu* StuLogin(Stu_list* s_l)
 		if (strcmp((s_l->stuList + i)->ID, Id) == 0)
 		{
 			//直接登陆
+			printf("登陆成功_\n");
 			return s_l->stuList + i;
 		}
 	}
@@ -37,13 +73,106 @@ Stu* StuLogin(Stu_list* s_l)
 		exit(-1);
 	}
 	strcpy(newStu->ID, Id);
+	newStu->topicNum = 0;
 	NewStuLogin(newStu);
 	return newStu;
 }
 
+void PrintTopicOnce(Topic* topic)
+{
+	assert(topic);
+	printf("%-5d\t%-20s\t%-5d\t%-10s\n",
+		topic->num, topic->name, topic->numOfStu, topic->adviser);
+}
+
+void CheckAllTopic(Mana* mana)
+{
+	assert(mana);
+	system("cls");
+	if (mana->sz == 0)
+	{
+		printf("教师暂未发布课题_\n");
+	}
+	else
+	{
+		printf("%-5s\t%-20s\t%-5s\t%-10s\n",
+			"课题编号", "课题名称", "选报人数", "指导教师");
+		for (int i = 0; i < mana->sz; i++)
+		{
+			PrintTopicOnce(mana->topicList + i);
+		}
+	}
+}
+
+void CheckMyTopic(Stu* stu, Mana* mana)
+{
+	assert(stu && mana);
+	Topic* myTopic = mana->topicList + (stu->topicNum - 1);
+	printf("我的课题_\n");
+	printf("%-5s\t%-20s\t%-5s\t%-10s\n",
+		"课题编号", "课题名称", "选报人数", "指导教师");
+	printf("%-5d\t%-20s\t%-5d\t%-10s\n",
+		myTopic->num, myTopic->name, myTopic->numOfStu, myTopic->adviser);
+}
+
+void ModifyMyTopic(Stu* stu, Mana* mana)
+{
+	assert(stu && mana);
+	if (stu->topicNum == 0)
+	{
+		printf("你的选题列表为空_\n");
+	}
+	else
+	{
+		int newNum = 0;
+		printf("请输入新课题编号>:");
+		while (1)
+		{
+			scanf("%d", &newNum);
+			if (newNum > 0 && newNum <= mana->sz)
+			{
+				stu->topicNum = newNum;
+				system("cls");
+				printf("修改成功_\n");
+				break;
+			}
+			else
+			{
+				printf("选择非法，请重新选择_\n");
+			}
+		}
+	}
+}
+
 void StudentTerminal(Mana* mana, Stu_list* s_l)
 {
+	assert(s_l && mana);
 	//学生登陆
 	Stu* stu = StuLogin(s_l);
-
+	StuLoginSuccessfully(stu, s_l);
+	int input = 0;
+	do
+	{
+		StuOption();
+		printf("请选择>:");
+		scanf("%d", &input);
+		switch (input)
+		{
+		case CHECK_ALL:
+			CheckAllTopic(mana);
+			break;
+		case CHECK_MINE:
+			CheckMyTopic(stu, mana);
+			break;
+		case MODIFY_MINE:
+			ModifyMyTopic(stu, mana);
+			break;
+		case EXIT:
+			printf("退出登录_\n");
+			break;
+		default:
+			printf("非法选项，请重新选择:>");
+			break;
+		}
+	} while (input);
 }

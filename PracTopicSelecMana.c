@@ -14,6 +14,7 @@ void menu(void)
 
 void InitList(Mana* mana, Stu_list* s_l)
 {
+	assert(mana && s_l);
 	mana->topicList = (Topic*)malloc(sizeof(Topic) * DEFAULT_CAP);
 	if (mana->topicList == NULL)
 	{
@@ -35,6 +36,7 @@ void InitList(Mana* mana, Stu_list* s_l)
 
 void Destory(Mana* mana, Stu_list* s_l)
 {
+	assert(mana && s_l);
 	free(mana->topicList);
 	mana->topicList = NULL;
 	mana->sz = 0;
@@ -44,4 +46,30 @@ void Destory(Mana* mana, Stu_list* s_l)
 	s_l->stuList = NULL;
 	s_l->sz = 0;
 	s_l->capacity = 0;
+}
+
+void CheckCapAndExp(Stu_list* s_l)
+{
+	assert(s_l);
+	if (s_l->capacity == s_l->sz)
+	{
+		Stu* tmp = (Stu*)realloc(s_l->stuList,
+			(s_l->capacity + EXP_SZ));
+		if (tmp == NULL) {
+			perror("CheckCapAndExp::realloc");
+			exit(-1);
+		}
+		else {
+			s_l->stuList = tmp;
+			s_l->capacity += EXP_SZ;
+		}
+	}
+}
+
+void ManaPush(Stu_list* s_l, Stu* stu)
+{
+	assert(s_l && stu);
+	CheckCapAndExp(s_l);
+	s_l->stuList[s_l->sz] = *stu;
+	s_l->sz++;
 }

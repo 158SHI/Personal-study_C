@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 #define ID_MAX 12
 #define STU_TEA_NAME_MAX 15
@@ -67,3 +68,5 @@ void StudentTerminal(Mana* mana, Stu_list* s_l);
 void TeacherTermibal(Mana* mana, Stu_list* s_l);
 void InitList(Mana* mana, Stu_list* s_l);
 void Destory(Mana* mana, Stu_list* s_l);
+void PrintTopicOnce(Topic* topic);
+void ManaPush(Stu_list* s_l, Stu* stu);
