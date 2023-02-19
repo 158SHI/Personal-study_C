@@ -9,11 +9,10 @@ void test(void)
 	Stu_list s_l = { 0 };
 	//初始化列表
 	InitList(&mana, &s_l);
-
-	menu();
-	printf("请选择>:");
 	do
 	{
+		menu();
+		printf("请选择>:");
 		scanf("%d", &input);
 		switch (input)
 		{
@@ -24,6 +23,7 @@ void test(void)
 			TeacherTermibal(&mana, &s_l);
 			break;
 		case 0:
+			SavaMessage(&mana, &s_l);
 			Destory(&mana, &s_l);
 			printf("exit\n");
 			break;

@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <stdbool.h>
 
 #define ID_MAX 12
 #define STU_TEA_NAME_MAX 15
@@ -69,4 +70,9 @@ void TeacherTermibal(Mana* mana, Stu_list* s_l);
 void InitList(Mana* mana, Stu_list* s_l);
 void Destory(Mana* mana, Stu_list* s_l);
 void PrintTopicOnce(Topic* topic);
-void ManaPush(Stu_list* s_l, Stu* stu);
+void StuListPush(Stu_list* s_l, Stu* stu);
+void ManaPush(Mana* mana, Topic* newtopic);
+void CheckAllTopic(Mana* mana);
+void StuInTopicPush(Stu* stuListInTopic, Stu* stu);
+void LoadMessage(Mana* mana, Stu_list* s_l);
+void SavaMessage(Mana* mana, Stu_list* s_l);
