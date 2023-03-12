@@ -1,41 +1,23 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 
-#include"PracTopicSelecMana.h"
+#include <stdio.h>
 
-void test(void)
+int func(int x, int y)
 {
-	int input = 0;
-	Mana mana = { 0 };
-	Stu_list s_l = { 0 };
-	//初始化列表
-	InitList(&mana, &s_l);
-	do
-	{
-		menu();
-		printf("请选择>:");
-		scanf("%d", &input);
-		switch (input)
-		{
-		case STUDENT:
-			StudentTerminal(&mana, &s_l);
-			break;
-		case TEACHER:
-			TeacherTermibal(&mana, &s_l);
-			break;
-		case 0:
-			SavaMessage(&mana, &s_l);
-			Destory(&mana, &s_l);
-			printf("exit\n");
-			break;
-		default:
-			printf("非法选项，请重新选择:>");
-			break;
-		}
-	} while (input);
+	int sum = 0;
+	sum = x + y;
+	return sum;
 }
 
 int main()
 {
-	test();
+	int a = 10;
+	int b = 20;
+	int c = 0;
+
+	c = func(a, b);
+
+	printf("%d\n", c);
+
 	return 0;
 }
